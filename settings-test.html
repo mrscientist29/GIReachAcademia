@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Persistence Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background-color: #1e3a8a;
+            color: white;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Settings & Content Persistence Test</h1>
+        <p>This page tests whether settings and page content are properly saved to and loaded from the database across devices.</p>
+        
+        <div id="status" class="status info">
+            Ready to test...
+        </div>
+        
+        <div>
+            <button onclick="testConnection()">Test API Connection</button>
+            <button onclick="loadSettings()">Load Settings</button>
+            <button onclick="loadContent()">Load Content</button>
+            <button onclick="testSaveSettings()">Test Save Settings</button>
+            <button onclick="testSaveContent()">Test Save Content</button>
+            <button onclick="testHomepage()">Test Homepage</button>
+            <button onclick="clearCache()">Clear Local Cache</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>📊 Current Logo Settings</h2>
+        <div id="logoPreview" class="logo-preview">
+            <div class="logo-icon">🩺</div>
+            <div>
+                <div style="font-size: 24px; font-weight: bold;">GI REACH</div>
+                <div style="font-size: 14px; opacity: 0.8;">Academic Excellence</div>
+            </div>
+        </div>
+        <pre id="logoData">Loading...</pre>
+    </div>
+
+    <div class="container">
+        <h2>📄 Current Page Content</h2>
+        <div id="contentPreview">
+            <h3>Homepage Hero Section</h3>
+            <pre id="contentData">Loading...</pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>🔄 Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function updateStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function addResult(test, result, details = '') {
+            testResults.push({ test, result, details, timestamp: new Date().toISOString() });
+            updateResults();
+        }
+
+        function updateResults() {
+            const resultsEl = document.getElementById('results');
+            resultsEl.innerHTML = testResults.map(r => `
+                <div class="status ${r.result === 'PASS' ? 'success' : 'error'}">
+                    <strong>${r.test}:</strong> ${r.result}
+                    ${r.details ? `<br><small>${r.details}</small>` : ''}
+                    <br><small>${new Date(r.timestamp).toLocaleString()}</small>
+                </div>
+            `).join('');
+        }
+
+        async function testConnection() {
+            updateStatus('Testing API connection...', 'info');
+            try {
+                const response = await fetch('/api/test');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addResult('API Connection', 'PASS', `Server responded: ${data.message}`);
+                    updateStatus('API connection successful', 'success');
+                } else {
+                    addResult('API Connection', 'FAIL', `HTTP ${response.status}`);
+                    updateStatus('API connection failed', 'error');
+                }
+            } catch (error) {
+                addResult('API Connection', 'FAIL', error.message);
+                updateStatus('API connection error: ' + error.message, 'error');
+            }
+        }
+
+        async function loadSettings() {
+            updateStatus('Loading settings from database...', 'info');
+            try {
+                // Test the simple logo endpoint
+                const logoResponse = await fetch('/api/logo-simple');
+                const logoData = await logoResponse.json();
+                
+                if (logoResponse.ok && logoData.success) {
+                    addResult('Load Logo Settings', 'PASS', `Source: ${logoData.source}`);
+                    updateLogoPreview(logoData.logo);
+                    document.getElementById('logoData').textContent = JSON.stringify(logoData, null, 2);
+                    updateStatus('Settings loaded successfully', 'success');
+                } else {
+                    addResult('Load Logo Settings', 'FAIL', logoData.error || 'Unknown error');
+                    updateStatus('Failed to load settings', 'error');
+                }
+
+                // Test the full settings endpoint
+                const settingsResponse = await fetch('/api/settings-sync');
+                const settingsData = await settingsResponse.json();
+                
+                if (settingsResponse.ok && settingsData.success) {
+                    addResult('Load All Settings', 'PASS', `Found ${settingsData.count} settings`);
+                } else {
+                    addResult('Load All Settings', 'FAIL', settingsData.error || 'Unknown error');
+                }
+                
+            } catch (error) {
+                addResult('Load Settings', 'FAIL', error.message);
+                updateStatus('Error loading settings: ' + error.message, 'error');
+            }
+        }
+
+        async function testSaveSettings() {
+            updateStatus('Testing save settings...', 'info');
+            try {
+                const testSettings = {
+                    type: 'icon',
+                    iconName: 'Stethoscope',
+                    iconColor: 'text-white',
+                    iconBackground: 'bg-green-600', // Changed to green for testing
+                    primaryText: 'GI REACH TEST',
+                    secondaryText: 'Settings Test ' + new Date().getTime(),
+                    primaryTextColor: 'text-gray-900',
+                    secondaryTextColor: 'text-gray-600',
+                    fontSize: 'text-2xl',
+                    fontWeight: 'font-bold',
+                    borderRadius: 'rounded-xl',
+                    showSecondaryText: true,
+                    imageWidth: 48,
+                    imageHeight: 48
+                };
+
+                const response = await fetch('/api/admin/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        settingKey: 'logo',
+                        settingValue: testSettings
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addResult('Save Settings', 'PASS', 'Settings saved to database');
+                    updateStatus('Settings saved successfully', 'success');
+                    
+                    // Verify the save by loading again
+                    setTimeout(loadSettings, 1000);
+                } else {
+                    addResult('Save Settings', 'FAIL', data.message || 'Unknown error');
+                    updateStatus('Failed to save settings', 'error');
+                }
+                
+            } catch (error) {
+                addResult('Save Settings', 'FAIL', error.message);
+                updateStatus('Error saving settings: ' + error.message, 'error');
+            }
+        }
+
+        function updateLogoPreview(logoSettings) {
+            const preview = document.getElementById('logoPreview');
+            const iconEl = preview.querySelector('.logo-icon');
+            const textContainer = preview.querySelector('div:last-child');
+            
+            // Update icon background color
+            if (logoSettings.iconBackground) {
+                const bgColor = logoSettings.iconBackground.includes('green') ? '#16a34a' : '#3b82f6';
+                iconEl.style.backgroundColor = bgColor;
+            }
+            
+            // Update text
+            textContainer.innerHTML = `
+                <div style="font-size: 24px; font-weight: bold;">${logoSettings.primaryText || 'GI REACH'}</div>
+                <div style="font-size: 14px; opacity: 0.8;">${logoSettings.secondaryText || 'Academic Excellence'}</div>
+            `;
+        }
+
+        function clearCache() {
+            localStorage.removeItem('gireach-logo');
+            sessionStorage.clear();
+            addResult('Clear Cache', 'PASS', 'Local storage cleared');
+            updateStatus('Cache cleared', 'success');
+        }
+
+        async function loadContent() {
+            updateStatus('Loading content from database...', 'info');
+            try {
+                // Test the content sync endpoint
+                const contentResponse = await fetch('/api/content-sync');
+                const contentData = await contentResponse.json();
+                
+                if (contentResponse.ok && contentData.success) {
+                    addResult('Load All Content', 'PASS', `Found ${contentData.count} pages`);
+                    document.getElementById('contentData').textContent = JSON.stringify(contentData.content.home || {}, null, 2);
+                    updateStatus('Content loaded successfully', 'success');
+                } else {
+                    addResult('Load All Content', 'FAIL', contentData.error || 'Unknown error');
+                    updateStatus('Failed to load content', 'error');
+                }
+
+                // Test specific page content
+                const homeResponse = await fetch('/api/content/home');
+                if (homeResponse.ok) {
+                    const homeData = await homeResponse.json();
+                    addResult('Load Home Content', 'PASS', `Found ${homeData.sections?.length || 0} sections`);
+                } else if (homeResponse.status === 404) {
+                    addResult('Load Home Content', 'INFO', 'Home content not found (will be initialized)');
+                } else {
+                    addResult('Load Home Content', 'FAIL', `HTTP ${homeResponse.status}`);
+                }
+                
+            } catch (error) {
+                addResult('Load Content', 'FAIL', error.message);
+                updateStatus('Error loading content: ' + error.message, 'error');
+            }
+        }
+
+        async function testSaveContent() {
+            updateStatus('Testing save content...', 'info');
+            try {
+                const testContent = {
+                    pageId: 'home',
+                    pageName: 'Homepage Test',
+                    sections: [
+                        {
+                            id: 'test-hero',
+                            type: 'hero',
+                            title: 'Test Hero Section - ' + new Date().getTime(),
+                            content: 'This is a test content update to verify database persistence.',
+                            styles: {
+                                backgroundColor: 'from-red-50 to-pink-100',
+                                textColor: 'text-gray-900'
+                            }
+                        }
+                    ]
+                };
+
+                const response = await fetch('/api/admin/content', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testContent)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addResult('Save Content', 'PASS', 'Content saved to database');
+                    updateStatus('Content saved successfully', 'success');
+                    
+                    // Verify the save by loading again
+                    setTimeout(loadContent, 1000);
+                } else {
+                    addResult('Save Content', 'FAIL', data.message || 'Unknown error');
+                    updateStatus('Failed to save content', 'error');
+                }
+                
+            } catch (error) {
+                addResult('Save Content', 'FAIL', error.message);
+                updateStatus('Error saving content: ' + error.message, 'error');
+            }
+        }
+
+        async function testHomepage() {
+            updateStatus('Testing homepage content loading...', 'info');
+            try {
+                // Test if homepage loads without errors
+                const response = await fetch('/');
+                if (response.ok) {
+                    addResult('Homepage Load', 'PASS', 'Homepage loads successfully');
+                    updateStatus('Homepage test passed', 'success');
+                } else {
+                    addResult('Homepage Load', 'FAIL', `HTTP ${response.status}`);
+                    updateStatus('Homepage test failed', 'error');
+                }
+            } catch (error) {
+                addResult('Homepage Load', 'FAIL', error.message);
+                updateStatus('Homepage test error: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-load settings and content on page load
+        window.addEventListener('load', () => {
+            testConnection();
+            setTimeout(() => {
+                loadSettings();
+                loadContent();
+                testHomepage();
+            }, 500);
+        });
+
+        // Auto-refresh every 30 seconds to test persistence
+        setInterval(() => {
+            console.log('Auto-refreshing settings and content...');
+            loadSettings();
+            loadContent();
+        }, 30000);
+    </script>
+</body>
+</html>

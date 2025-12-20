@@ -1,0 +1,424 @@
+[
+  {
+    "id": "file-1765973567251",
+    "pageId": "home",
+    "pageName": "Homepage",
+    "sections": [
+      {
+        "id": "hero-1",
+        "type": "hero",
+        "title": "Advancing Medical Research Through Excellence",
+        "content": "Join Pakistan's premier research community dedicated to advancing gastroenterology and medical sciences through collaborative research, mentorship, and academic excellence.",
+        "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900",
+          "fontSize": "text-4xl lg:text-6xl"
+        }
+      },
+      {
+        "id": "about-1",
+        "type": "text",
+        "title": "Leading Medical Research in Pakistan",
+        "content": "GI REACH is Pakistan's premier gastroenterology research organization, dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.",
+        "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "services-1",
+        "type": "services",
+        "title": "Our Services",
+        "content": "Comprehensive support for researchers at every stage of their academic journey",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        },
+        "data": {
+          "services": [
+            {
+              "id": "mentorship",
+              "title": "Research Mentorship",
+              "description": "One-on-one guidance from experienced researchers to accelerate your academic growth and research methodology skills.",
+              "icon": "GraduationCap",
+              "color": "blue"
+            },
+            {
+              "id": "publication",
+              "title": "Publication Support",
+              "description": "End-to-end manuscript preparation, peer review, and publication guidance with transparent co-authorship policies.",
+              "icon": "FileText",
+              "color": "green"
+            },
+            {
+              "id": "education",
+              "title": "Educational Programs",
+              "description": "Workshops, webinars, and training sessions on research methodologies, statistical analysis, and academic writing.",
+              "icon": "BookOpen",
+              "color": "purple"
+            }
+          ]
+        }
+      },
+      {
+        "id": "stats-1",
+        "type": "stats",
+        "title": "Our Impact",
+        "content": "Making a difference in medical research across Pakistan and beyond",
+        "styles": {
+          "backgroundColor": "bg-blue-600",
+          "textColor": "text-white"
+        },
+        "data": {
+          "stats": [
+            {
+              "label": "Published Papers",
+              "value": "500+"
+            },
+            {
+              "label": "Active Researchers",
+              "value": "200+"
+            },
+            {
+              "label": "Partner Institutions",
+              "value": "50+"
+            },
+            {
+              "label": "Years of Excellence",
+              "value": "15+"
+            }
+          ]
+        }
+      },
+      {
+        "id": "contact-1",
+        "type": "contact",
+        "title": "Get in Touch",
+        "content": "Ready to advance your research career? Contact us to learn more about our programs and how we can support your academic journey.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        },
+        "data": {
+          "phone": "+92 (21) 1234-5678",
+          "email": "info@gireach.pk",
+          "address": "Karachi, Pakistan"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": null,
+    "createdAt": "2025-12-17T12:12:47.251Z",
+    "updatedAt": "2025-12-17T12:12:47.251Z"
+  },
+  {
+    "id": "file-1765969477077",
+    "pageId": "about",
+    "pageName": "About Us",
+    "sections": [
+      {
+        "id": "about-hero",
+        "type": "hero",
+        "title": "About GI REACH",
+        "content": "Pakistan's premier gastroenterology research organization dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.",
+        "imageUrl": "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-green-50 to-emerald-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "about-mission",
+        "type": "text",
+        "title": "Our Mission",
+        "content": "To advance gastroenterology research in Pakistan through collaborative excellence, innovative methodologies, and comprehensive support for researchers at all career stages.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "about-vision",
+        "type": "text",
+        "title": "Our Vision",
+        "content": "To be the leading platform for gastroenterology research in Pakistan, fostering a community of excellence that contributes to global medical knowledge and improves patient outcomes.",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": "dev-user-123",
+    "createdAt": "2025-12-17T11:04:37.077Z",
+    "updatedAt": "2025-12-17T11:04:37.077Z"
+  },
+  {
+    "id": "file-1765969477164",
+    "pageId": "programs",
+    "pageName": "Programs",
+    "sections": [
+      {
+        "id": "programs-hero",
+        "type": "hero",
+        "title": "Research Programs",
+        "content": "Comprehensive programs designed to support researchers at every stage of their academic journey.",
+        "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-purple-50 to-pink-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "programs-mentorship",
+        "type": "text",
+        "title": "Mentorship Program",
+        "content": "Our flagship mentorship program connects early-career researchers with experienced mentors in gastroenterology. Participants receive personalized guidance on research methodology, career development, and publication strategies.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "programs-fellowship",
+        "type": "text",
+        "title": "Research Fellowship",
+        "content": "Competitive fellowship opportunities for outstanding researchers to conduct cutting-edge research in gastroenterology. Fellows receive funding, resources, and institutional support.",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "programs-training",
+        "type": "text",
+        "title": "Training Workshops",
+        "content": "Regular workshops covering research methodology, statistical analysis, grant writing, and publication strategies. Open to all members of the research community.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": "dev-user-123",
+    "createdAt": "2025-12-17T11:04:37.164Z",
+    "updatedAt": "2025-12-17T11:04:37.164Z"
+  },
+  {
+    "id": "file-1765969477508",
+    "pageId": "publications",
+    "pageName": "Publications",
+    "sections": [
+      {
+        "id": "publications-hero",
+        "type": "hero",
+        "title": "Research Publications",
+        "content": "Discover our extensive collection of peer-reviewed research publications in gastroenterology and related fields.",
+        "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-blue-50 to-cyan-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "publications-stats",
+        "type": "stats",
+        "title": "Publication Impact",
+        "content": "Our research contributions to the global medical community",
+        "styles": {
+          "backgroundColor": "bg-blue-600",
+          "textColor": "text-white"
+        },
+        "data": {
+          "stats": [
+            {
+              "label": "Published Papers",
+              "value": "500+"
+            },
+            {
+              "label": "Citations",
+              "value": "2,500+"
+            },
+            {
+              "label": "Impact Factor",
+              "value": "4.2"
+            },
+            {
+              "label": "Journals",
+              "value": "50+"
+            }
+          ]
+        }
+      },
+      {
+        "id": "publications-support",
+        "type": "text",
+        "title": "Publication Support",
+        "content": "We provide comprehensive support for researchers looking to publish their work, including manuscript preparation, peer review coordination, and journal selection guidance.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": "dev-user-123",
+    "createdAt": "2025-12-17T11:04:37.508Z",
+    "updatedAt": "2025-12-17T11:04:37.508Z"
+  },
+  {
+    "id": "file-1765969477625",
+    "pageId": "resources",
+    "pageName": "Resources",
+    "sections": [
+      {
+        "id": "resources-hero",
+        "type": "hero",
+        "title": "Research Resources",
+        "content": "Access comprehensive resources to support your research journey, from methodology guides to statistical tools.",
+        "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-green-50 to-teal-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "resources-library",
+        "type": "text",
+        "title": "Digital Library",
+        "content": "Access our extensive digital library containing research papers, methodology guides, statistical resources, and educational materials.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "resources-tools",
+        "type": "text",
+        "title": "Research Tools",
+        "content": "Utilize our collection of research tools including statistical software, data collection templates, and analysis frameworks.",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "resources-guidelines",
+        "type": "text",
+        "title": "Guidelines & Protocols",
+        "content": "Follow our established guidelines and protocols for conducting ethical and rigorous research in gastroenterology.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": "dev-user-123",
+    "createdAt": "2025-12-17T11:04:37.625Z",
+    "updatedAt": "2025-12-17T11:04:37.625Z"
+  },
+  {
+    "id": "file-1765969477643",
+    "pageId": "contact",
+    "pageName": "Contact",
+    "sections": [
+      {
+        "id": "contact-hero",
+        "type": "hero",
+        "title": "Contact Us",
+        "content": "Get in touch with our team to learn more about our programs, research opportunities, and how we can support your academic journey.",
+        "imageUrl": "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-orange-50 to-red-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "contact-info",
+        "type": "contact",
+        "title": "Contact Information",
+        "content": "Reach out to us through any of the following channels. We're here to help and answer any questions you may have.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        },
+        "data": {
+          "phone": "+92 (21) 1234-5678",
+          "email": "info@gireach.pk",
+          "address": "Karachi, Pakistan",
+          "hours": "Monday - Friday: 9:00 AM - 5:00 PM"
+        }
+      },
+      {
+        "id": "contact-form",
+        "type": "text",
+        "title": "Send us a Message",
+        "content": "Use our contact form to send us a message directly. We typically respond within 24-48 hours.",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": "dev-user-123",
+    "createdAt": "2025-12-17T11:04:37.643Z",
+    "updatedAt": "2025-12-17T11:04:37.643Z"
+  },
+  {
+    "id": "file-1765995463433",
+    "pageId": "join",
+    "pageName": "Join Us",
+    "sections": [
+      {
+        "id": "join-hero",
+        "type": "hero",
+        "title": "Join Our Community",
+        "content": "Become part of Pakistan's premier gastroenterology research community and advance your academic career.",
+        "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "styles": {
+          "backgroundColor": "from-indigo-50 to-purple-100",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "join-benefits",
+        "type": "text",
+        "title": "Membership Benefits",
+        "content": "As a member of GI REACH, you'll gain access to exclusive research opportunities, mentorship programs, publication support, and a network of leading researchers in gastroenterology.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "join-requirements",
+        "type": "text",
+        "title": "Membership Requirements",
+        "content": "We welcome researchers at all career stages, from medical students to senior faculty. Basic requirements include a commitment to ethical research practices and active participation in our community.",
+        "styles": {
+          "backgroundColor": "bg-gray-50",
+          "textColor": "text-gray-900"
+        }
+      },
+      {
+        "id": "join-process",
+        "type": "text",
+        "title": "Application Process",
+        "content": "The application process is straightforward: submit your application form, provide your research interests and background, and participate in a brief interview with our membership committee.",
+        "styles": {
+          "backgroundColor": "bg-white",
+          "textColor": "text-gray-900"
+        }
+      }
+    ],
+    "isPublished": true,
+    "updatedById": null,
+    "createdAt": "2025-12-17T18:17:43.433Z",
+    "updatedAt": "2025-12-17T18:17:43.433Z"
+  }
+]

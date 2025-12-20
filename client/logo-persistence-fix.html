@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Persistence Fix - Debug Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .debug-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success { border-left: 4px solid #10b981; }
+        .warning { border-left: 4px solid #f59e0b; }
+        .error { border-left: 4px solid #ef4444; }
+        .info { border-left: 4px solid #3b82f6; }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover { background: #2563eb; }
+        button.danger { background: #ef4444; }
+        button.danger:hover { background: #dc2626; }
+        button.success { background: #10b981; }
+        button.success:hover { background: #059669; }
+        
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 2px solid #e5e7eb;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .debug-log {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-good { background: #10b981; }
+        .status-bad { background: #ef4444; }
+        .status-warning { background: #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Logo Persistence Fix - Debug Tool</h1>
+    
+    <div class="debug-panel info">
+        <h2>📋 Quick Fix Instructions</h2>
+        <ol>
+            <li><strong>Open Browser Console</strong> (F12) to see detailed logs</li>
+            <li><strong>Test Logo Storage</strong> using the buttons below</li>
+            <li><strong>Upload a logo</strong> in the admin panel</li>
+            <li><strong>Navigate between pages</strong> to test persistence</li>
+            <li><strong>Use Force Refresh</strong> if logo disappears</li>
+        </ol>
+    </div>
+
+    <div class="debug-panel">
+        <h2>🧪 Logo Storage Tests</h2>
+        <div style="margin-bottom: 20px;">
+            <button onclick="testLogoSave()">Test Logo Save</button>
+            <button onclick="testLogoLoad()">Test Logo Load</button>
+            <button onclick="forceLogoRefresh()" class="success">Force Logo Refresh</button>
+            <button onclick="clearLogoStorage()" class="danger">Clear Logo Storage</button>
+        </div>
+        <div id="testResults"></div>
+    </div>
+
+    <div class="debug-panel">
+        <h2>📊 Current Logo Status</h2>
+        <div id="logoStatus">
+            <p>Click "Check Logo Status" to see current settings</p>
+        </div>
+        <button onclick="checkLogoStatus()">Check Logo Status</button>
+        <button onclick="monitorLogo()" class="success">Start Monitoring</button>
+        <button onclick="stopMonitoring()" class="danger">Stop Monitoring</button>
+    </div>
+
+    <div class="debug-panel">
+        <h2>🎯 Quick Fixes</h2>
+        <div style="margin-bottom: 20px;">
+            <button onclick="setTestLogo()" class="success">Set Test Logo</button>
+            <button onclick="setImageLogo()" class="success">Set Test Image Logo</button>
+            <button onclick="triggerLogoUpdate()">Trigger Logo Update Event</button>
+        </div>
+        <p><strong>If logo keeps disappearing:</strong></p>
+        <ul>
+            <li>Click "Set Test Logo" to force a working logo</li>
+            <li>Use "Force Logo Refresh" when navigating pages</li>
+            <li>Check console for error messages</li>
+        </ul>
+    </div>
+
+    <div class="debug-panel">
+        <h2>📝 Debug Log</h2>
+        <div id="debugLog" class="debug-log">Debug messages will appear here...</div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        let debugLog = document.getElementById('debugLog');
+        let monitorInterval = null;
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            console.log(logEntry);
+            debugLog.textContent += logEntry + '\n';
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        function testLogoSave() {
+            log('Testing logo save functionality...', 'info');
+            const testLogo = {
+                type: 'icon',
+                iconName: 'Stethoscope',
+                iconColor: 'text-white',
+                iconBackground: 'bg-red-600',
+                primaryText: 'TEST SAVE',
+                secondaryText: 'Debug Mode',
+                showSecondaryText: true,
+                fontSize: 'text-2xl',
+                fontWeight: 'font-bold',
+                borderRadius: 'rounded-xl'
+            };
+            
+            try {
+                localStorage.setItem('gireach-logo', JSON.stringify(testLogo));
+                
+                // Dispatch events like the real system
+                window.dispatchEvent(new CustomEvent('logoUpdated', { detail: testLogo }));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'gireach-logo',
+                    newValue: JSON.stringify(testLogo),
+                    storageArea: localStorage
+                }));
+                
+                document.getElementById('testResults').innerHTML = 
+                    '<div class="success">✅ Logo save test passed! Check navigation for "TEST SAVE"</div>';
+                log('Logo save test completed successfully', 'success');
+                
+            } catch (error) {
+                document.getElementById('testResults').innerHTML = 
+                    `<div class="error">❌ Logo save test failed: ${error.message}</div>`;
+                log(`Logo save test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testLogoLoad() {
+            log('Testing logo load functionality...', 'info');
+            try {
+                const stored = localStorage.getItem('gireach-logo');
+                if (stored) {
+                    const logo = JSON.parse(stored);
+                    document.getElementById('testResults').innerHTML = 
+                        `<div class="success">✅ Logo loaded: ${logo.primaryText} (${logo.type})</div>`;
+                    log(`Logo load test passed: ${logo.primaryText}`, 'success');
+                } else {
+                    document.getElementById('testResults').innerHTML = 
+                        '<div class="warning">⚠️ No logo found in storage</div>';
+                    log('No logo found in localStorage', 'warning');
+                }
+            } catch (error) {
+                document.getElementById('testResults').innerHTML = 
+                    `<div class="error">❌ Logo load test failed: ${error.message}</div>`;
+                log(`Logo load test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function forceLogoRefresh() {
+            log('Forcing logo refresh...', 'info');
+            try {
+                // Try to call the global refresh function
+                if (window.forceLogoRefresh) {
+                    window.forceLogoRefresh();
+                    log('Global logo refresh function called', 'success');
+                } else {
+                    log('Global refresh function not available', 'warning');
+                }
+                
+                // Dispatch events manually
+                const stored = localStorage.getItem('gireach-logo');
+                if (stored) {
+                    const logo = JSON.parse(stored);
+                    window.dispatchEvent(new CustomEvent('logoUpdated', { detail: logo }));
+                    window.dispatchEvent(new StorageEvent('storage', {
+                        key: 'gireach-logo',
+                        newValue: stored,
+                        storageArea: localStorage
+                    }));
+                    log('Manual logo refresh events dispatched', 'success');
+                }
+                
+            } catch (error) {
+                log(`Force refresh failed: ${error.message}`, 'error');
+            }
+        }
+
+        function clearLogoStorage() {
+            localStorage.removeItem('gireach-logo');
+            document.getElementById('testResults').innerHTML = 
+                '<div class="info">🧹 Logo storage cleared</div>';
+            log('Logo storage cleared', 'info');
+            forceLogoRefresh();
+        }
+
+        function checkLogoStatus() {
+            log('Checking current logo status...', 'info');
+            const statusDiv = document.getElementById('logoStatus');
+            
+            try {
+                const stored = localStorage.getItem('gireach-logo');
+                let html = '<h3>Storage Status:</h3>';
+                
+                if (stored) {
+                    const logo = JSON.parse(stored);
+                    html += `
+                        <div class="logo-preview">
+                            <div class="logo-icon">${logo.primaryText ? logo.primaryText.charAt(0) : '?'}</div>
+                            <div>
+                                <strong>${logo.primaryText || 'No text'}</strong><br>
+                                <small>${logo.secondaryText || 'No tagline'}</small><br>
+                                <small>Type: ${logo.type || 'unknown'}</small>
+                            </div>
+                        </div>
+                    `;
+                    
+                    html += '<h4>Settings:</h4><ul>';
+                    Object.entries(logo).forEach(([key, value]) => {
+                        html += `<li><strong>${key}:</strong> ${value}</li>`;
+                    });
+                    html += '</ul>';
+                    
+                } else {
+                    html += '<p><span class="status-indicator status-bad"></span>No logo found in localStorage</p>';
+                }
+                
+                // Check if global refresh function exists
+                html += '<h4>System Status:</h4><ul>';
+                html += `<li><span class="status-indicator ${window.forceLogoRefresh ? 'status-good' : 'status-bad'}"></span>Global refresh function: ${window.forceLogoRefresh ? 'Available' : 'Not available'}</li>`;
+                html += `<li><span class="status-indicator status-good"></span>localStorage: Working</li>`;
+                html += '</ul>';
+                
+                statusDiv.innerHTML = html;
+                log('Logo status check completed', 'info');
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Error checking status: ${error.message}</div>`;
+                log(`Status check failed: ${error.message}`, 'error');
+            }
+        }
+
+        function setTestLogo() {
+            const testLogo = {
+                type: 'icon',
+                iconName: 'Stethoscope',
+                iconColor: 'text-white',
+                iconBackground: 'bg-green-600',
+                primaryText: 'GI REACH',
+                secondaryText: 'Test Logo Active',
+                showSecondaryText: true,
+                fontSize: 'text-2xl',
+                fontWeight: 'font-bold',
+                borderRadius: 'rounded-xl'
+            };
+            
+            localStorage.setItem('gireach-logo', JSON.stringify(testLogo));
+            forceLogoRefresh();
+            log('Test logo set and refresh triggered', 'success');
+        }
+
+        function setImageLogo() {
+            // Create a simple test image (1x1 red pixel)
+            const canvas = document.createElement('canvas');
+            canvas.width = 48;
+            canvas.height = 48;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillRect(0, 0, 48, 48);
+            ctx.fillStyle = '#06b6d4';
+            ctx.fillRect(12, 12, 24, 24);
+            const dataUrl = canvas.toDataURL();
+            
+            const testLogo = {
+                type: 'image',
+                imageUrl: dataUrl,
+                imageWidth: 48,
+                imageHeight: 48,
+                primaryText: 'GI REACH',
+                secondaryText: 'Image Logo Test',
+                showSecondaryText: true,
+                fontSize: 'text-2xl',
+                fontWeight: 'font-bold',
+                borderRadius: 'rounded-xl'
+            };
+            
+            localStorage.setItem('gireach-logo', JSON.stringify(testLogo));
+            forceLogoRefresh();
+            log('Test image logo set and refresh triggered', 'success');
+        }
+
+        function triggerLogoUpdate() {
+            const stored = localStorage.getItem('gireach-logo');
+            if (stored) {
+                const logo = JSON.parse(stored);
+                window.dispatchEvent(new CustomEvent('logoUpdated', { detail: logo }));
+                log('Logo update event triggered manually', 'info');
+            } else {
+                log('No logo to trigger update for', 'warning');
+            }
+        }
+
+        function monitorLogo() {
+            if (monitorInterval) {
+                clearInterval(monitorInterval);
+            }
+            
+            log('Starting logo monitoring...', 'info');
+            monitorInterval = setInterval(() => {
+                const stored = localStorage.getItem('gireach-logo');
+                if (stored) {
+                    const logo = JSON.parse(stored);
+                    log(`Monitor: Logo present - ${logo.primaryText} (${logo.type})`, 'info');
+                } else {
+                    log('Monitor: No logo found in storage!', 'warning');
+                }
+            }, 2000);
+        }
+
+        function stopMonitoring() {
+            if (monitorInterval) {
+                clearInterval(monitorInterval);
+                monitorInterval = null;
+                log('Logo monitoring stopped', 'info');
+            }
+        }
+
+        function clearLog() {
+            debugLog.textContent = '';
+        }
+
+        // Initialize
+        window.onload = function() {
+            log('Logo Persistence Debug Tool loaded', 'info');
+            log('Admin panel: http://localhost:5000/admin/login', 'info');
+            log('Login: admin@gireach.pk / admin123', 'info');
+            
+            // Check initial status
+            setTimeout(checkLogoStatus, 1000);
+        };
+
+        // Listen for logo events
+        window.addEventListener('logoUpdated', function(e) {
+            log('Logo update event received!', 'success');
+        });
+
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'gireach-logo') {
+                log('Storage change event received!', 'success');
+            }
+        });
+    </script>
+</body>
+</html>

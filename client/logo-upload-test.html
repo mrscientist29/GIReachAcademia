@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Upload Test - GI REACH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-color: #bee5eb;
+        }
+        .feature {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+        .upload-demo {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .remove-btn {
+            background: #dc3545;
+        }
+        .remove-btn:hover {
+            background: #c82333;
+        }
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Logo Upload Feature Test</h1>
+    
+    <div class="test-section success">
+        <h2>✅ New Logo Upload Feature Implemented!</h2>
+        <p>The logo upload functionality has been successfully added to your page editor with the following improvements:</p>
+        <ul>
+            <li><strong>File Upload Button:</strong> Easy drag-and-drop or click to upload</li>
+            <li><strong>Image Preview:</strong> See your logo before saving</li>
+            <li><strong>Auto-resize:</strong> Automatically optimizes image dimensions</li>
+            <li><strong>Format Support:</strong> PNG, JPG, GIF, WebP, SVG</li>
+            <li><strong>File Validation:</strong> Size and type checking</li>
+            <li><strong>Toast Notifications:</strong> User-friendly feedback</li>
+        </ul>
+    </div>
+
+    <div class="test-section info">
+        <h2>🚀 How to Test the Logo Upload</h2>
+        <div class="step">
+            <strong>Step 1:</strong> Navigate to <code>http://localhost:5000/admin/login</code>
+        </div>
+        <div class="step">
+            <strong>Step 2:</strong> Login with <code>admin@gireach.pk</code> / <code>admin123</code>
+        </div>
+        <div class="step">
+            <strong>Step 3:</strong> Go to <strong>Page Editor</strong> from the sidebar
+        </div>
+        <div class="step">
+            <strong>Step 4:</strong> Select <strong>"Logo Settings"</strong> from the page list
+        </div>
+        <div class="step">
+            <strong>Step 5:</strong> Change logo type to <strong>"Custom Image"</strong>
+        </div>
+        <div class="step">
+            <strong>Step 6:</strong> Click <strong>"Upload Logo"</strong> button and select an image
+        </div>
+    </div>
+
+    <div class="test-section feature">
+        <h2>🎯 New Upload Features</h2>
+        
+        <h3>📁 File Upload Button</h3>
+        <div class="upload-demo">
+            <p>🖼️ <strong>Upload Logo Button</strong></p>
+            <button onclick="alert('This is a demo - use the actual admin panel!')">
+                📤 Upload Logo
+            </button>
+            <button class="remove-btn" onclick="alert('This is a demo - use the actual admin panel!')">
+                🗑️ Remove
+            </button>
+            <p><small>Click to select image files from your computer</small></p>
+        </div>
+
+        <h3>🔍 Image Preview</h3>
+        <div class="logo-preview">
+            <div class="logo-icon">🏥</div>
+            <div>
+                <h3 style="margin: 0; font-size: 24px; font-weight: bold;">GI REACH</h3>
+                <p style="margin: 0; color: #666; font-size: 14px;">Academic Excellence</p>
+                <p style="margin: 5px 0 0 0; color: #999; font-size: 12px;">48x48px</p>
+            </div>
+        </div>
+
+        <h3>📋 Upload Guidelines</h3>
+        <ul>
+            <li><strong>Supported Formats:</strong> PNG, JPG, GIF, WebP, SVG</li>
+            <li><strong>Maximum Size:</strong> 5MB per file</li>
+            <li><strong>Recommended Dimensions:</strong> 48x48 to 128x128 pixels</li>
+            <li><strong>Best Practice:</strong> Use PNG with transparent background</li>
+            <li><strong>Auto-resize:</strong> Images are automatically optimized</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Technical Implementation</h2>
+        <p>The upload feature includes:</p>
+        <ul>
+            <li><strong>File Validation:</strong> Type and size checking</li>
+            <li><strong>Base64 Encoding:</strong> Images stored in localStorage</li>
+            <li><strong>Auto-resize:</strong> Maintains aspect ratio while optimizing size</li>
+            <li><strong>Error Handling:</strong> User-friendly error messages</li>
+            <li><strong>Toast Notifications:</strong> Success/error feedback</li>
+            <li><strong>Preview System:</strong> Real-time logo preview</li>
+        </ul>
+    </div>
+
+    <div class="test-section success">
+        <h2>🎉 Ready to Use!</h2>
+        <p>Your logo upload feature is now fully functional. You can:</p>
+        <ul>
+            <li>✅ Upload custom logo images</li>
+            <li>✅ Preview logos before saving</li>
+            <li>✅ Remove uploaded logos</li>
+            <li>✅ Use URL input as alternative</li>
+            <li>✅ Auto-resize for optimal display</li>
+            <li>✅ Get real-time feedback</li>
+        </ul>
+        
+        <p><strong>Next:</strong> Go to the admin panel and test the upload functionality!</p>
+    </div>
+
+    <script>
+        console.log('🎨 Logo Upload Test Page Loaded');
+        console.log('📍 Admin Panel: http://localhost:5000/admin/login');
+        console.log('🔑 Login: admin@gireach.pk / admin123');
+        console.log('📝 Page Editor → Logo Settings → Custom Image → Upload Logo');
+    </script>
+</body>
+</html>

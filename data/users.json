@@ -1,0 +1,41 @@
+[
+  {
+    "id": "user-1765977996863-krgo01a1q",
+    "email": "wasifali248@gmail.com",
+    "password": "$2b$12$z9mVwM7Jt3ku7IwFbCgIXuYgaPWPVGx.MLPiZeTThEUJOZEtDYraW",
+    "firstName": "Muhammad Wasif",
+    "lastName": "Ali",
+    "role": "mentee",
+    "institution": "abc",
+    "yearOfStudy": null,
+    "isActive": true,
+    "createdAt": "2025-12-17T13:26:36.863Z",
+    "updatedAt": "2025-12-17T13:26:36.863Z"
+  },
+  {
+    "id": "user-1765978310641-kqx1jv3l2",
+    "email": "test@example.com",
+    "password": "$2b$12$lbkXWToGjF.0BzbOutiy7.5jsVZrGQe5zZ5UAvdYu/GeF6FXmFZFO",
+    "firstName": "Test",
+    "lastName": "User",
+    "role": "mentee",
+    "institution": "Test University",
+    "yearOfStudy": "2nd Year",
+    "isActive": true,
+    "createdAt": "2025-12-17T13:31:50.641Z",
+    "updatedAt": "2025-12-17T13:31:50.641Z"
+  },
+  {
+    "id": "user-1765993563712-41exuzwz2",
+    "email": "sirwasif@gmail.com",
+    "password": "$2b$12$NR8Bidm6W7905QcyO7.BeukFW88h/ncLGpO0TlvaCKuEzVgeSI3P.",
+    "firstName": "Muhammad Wasif",
+    "lastName": "Ali",
+    "role": "mentee",
+    "institution": "abc",
+    "yearOfStudy": null,
+    "isActive": true,
+    "createdAt": "2025-12-17T17:46:03.712Z",
+    "updatedAt": "2025-12-17T17:46:03.712Z"
+  }
+]

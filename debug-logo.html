@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .logo-preview { margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Logo Debug Tool</h1>
+    
+    <div class="debug-section">
+        <h2>1. API Connectivity Test</h2>
+        <button onclick="testAPI()">Test API Connection</button>
+        <div id="api-result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>2. Logo Settings Test</h2>
+        <button onclick="testLogoAPI()">Fetch Logo Settings</button>
+        <div id="logo-result"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>3. Logo Preview</h2>
+        <button onclick="renderLogo()">Render Logo</button>
+        <div id="logo-preview"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>4. LocalStorage Test</h2>
+        <button onclick="testLocalStorage()">Test LocalStorage</button>
+        <div id="storage-result"></div>
+    </div>
+
+    <script>
+        const baseURL = window.location.origin;
+        
+        async function testAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = '<div class="info">Testing API connection...</div>';
+            
+            try {
+                const response = await fetch(`${baseURL}/api/test`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ API Connection Successful!</div>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ API Error: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Connection Failed: ${error.message}</div>`;
+            }
+        }
+
+        async function testLogoAPI() {
+            const resultDiv = document.getElementById('logo-result');
+            resultDiv.innerHTML = '<div class="info">Fetching logo settings...</div>';
+            
+            try {
+                const response = await fetch(`${baseURL}/api/admin/settings/logo`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Logo Settings Retrieved!</div>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    
+                    // Store for logo rendering
+                    window.logoData = data.settingValue;
+                } else if (response.status === 404) {
+                    resultDiv.innerHTML = `<div class="error">❌ No logo settings found (404)</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ API Error: ${response.status}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Fetch Failed: ${error.message}</div>`;
+            }
+        }
+
+        function renderLogo() {
+            const previewDiv = document.getElementById('logo-preview');
+            
+            if (!window.logoData) {
+                previewDiv.innerHTML = '<div class="error">❌ No logo data available. Please fetch logo settings first.</div>';
+                return;
+            }
+
+            const logo = window.logoData;
+            let logoHTML = '';
+
+            if (logo.type === 'image' && logo.imageUrl) {
+                logoHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="${logo.imageUrl}" alt="Logo" style="width: ${logo.imageWidth || 48}px; height: ${logo.imageHeight || 48}px; border-radius: 12px;">
+                        <div>
+                            <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #1f2937;">${logo.primaryText || 'GI REACH'}</h2>
+                            ${logo.showSecondaryText && logo.secondaryText ? `<p style="margin: 0; font-size: 14px; color: #6b7280;">${logo.secondaryText}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else if (logo.type === 'icon') {
+                logoHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 48px; height: 48px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                            🩺
+                        </div>
+                        <div>
+                            <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #1f2937;">${logo.primaryText || 'GI REACH'}</h2>
+                            ${logo.showSecondaryText && logo.secondaryText ? `<p style="margin: 0; font-size: 14px; color: #6b7280;">${logo.secondaryText}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                logoHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 48px; height: 48px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            ${(logo.primaryText || 'GI').charAt(0)}
+                        </div>
+                        <div>
+                            <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #1f2937;">${logo.primaryText || 'GI REACH'}</h2>
+                            ${logo.showSecondaryText && logo.secondaryText ? `<p style="margin: 0; font-size: 14px; color: #6b7280;">${logo.secondaryText}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            previewDiv.innerHTML = `
+                <div class="success">✅ Logo Rendered Successfully!</div>
+                <div class="logo-preview">${logoHTML}</div>
+            `;
+        }
+
+        function testLocalStorage() {
+            const resultDiv = document.getElementById('storage-result');
+            
+            try {
+                // Test localStorage availability
+                const testKey = 'test-key';
+                const testValue = 'test-value';
+                
+                localStorage.setItem(testKey, testValue);
+                const retrieved = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+                
+                if (retrieved === testValue) {
+                    // Check for existing logo data
+                    const logoData = localStorage.getItem('gireach-logo');
+                    
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ LocalStorage Working!</div>
+                        <div>Existing logo data: ${logoData ? 'Found' : 'Not found'}</div>
+                        ${logoData ? `<pre>${logoData}</pre>` : ''}
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ LocalStorage test failed</div>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ LocalStorage Error: ${error.message}</div>`;
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('Debug page loaded');
+            testAPI();
+        });
+    </script>
+</body>
+</html>

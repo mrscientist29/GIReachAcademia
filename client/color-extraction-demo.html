@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GI REACH - Auto Color Theme Extraction</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #06b6d4, #f0f9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .feature-card h3 {
+            color: #06b6d4;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .gireach-colors {
+            background: #1e3a8a;
+        }
+        .cyan-color {
+            background: #06b6d4;
+        }
+        .cream-color {
+            background: #f5f5dc;
+            color: #1f2937;
+            text-shadow: none;
+        }
+        .coral-color {
+            background: #ff6b6b;
+        }
+        .steel-color {
+            background: #4682b4;
+        }
+        .demo-section {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .theme-preview {
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+        .theme-before {
+            background: #f8fafc;
+            border-color: #3b82f6;
+        }
+        .theme-after {
+            background: linear-gradient(135deg, #1e3a8a, #06b6d4);
+            color: white;
+            border-color: #06b6d4;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .step {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #06b6d4;
+            color: #1f2937;
+        }
+        .step-number {
+            background: #06b6d4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .cta {
+            text-align: center;
+            padding: 40px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 16px;
+            border: 2px solid #06b6d4;
+        }
+        .cta button {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cta button:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: #1e3a8a;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎨 Auto Color Theme Extraction</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">
+                Automatically extract colors from your logo and apply them to your entire website theme
+            </p>
+            
+            <div class="logo-preview">
+                <div class="logo-icon">🏥</div>
+                <div>
+                    <h2 style="margin: 0; font-size: 2rem;">GI REACH</h2>
+                    <p style="margin: 0; opacity: 0.8;">Gastrointestinal Research, Education, and Collaboration Hub</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🎯 Smart Color Detection</h3>
+                <p>Advanced algorithms analyze your logo to identify dominant colors, ensuring perfect color harmony across your website.</p>
+                <div class="color-palette">
+                    <div class="color-swatch gireach-colors">Navy</div>
+                    <div class="color-swatch cyan-color">Cyan</div>
+                    <div class="color-swatch cream-color">Cream</div>
+                    <div class="color-swatch coral-color">Coral</div>
+                    <div class="color-swatch steel-color">Steel</div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3>⚡ Instant Application</h3>
+                <p>Colors are automatically applied to buttons, headers, accents, and backgrounds throughout your entire website in real-time.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎨 Professional Themes</h3>
+                <p>Generates cohesive color schemes that maintain proper contrast ratios and accessibility standards.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔄 Live Preview</h3>
+                <p>See changes instantly as colors are extracted and applied. No need to refresh or wait for processing.</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 style="text-align: center; color: #1e3a8a; margin-bottom: 30px;">
+                🔄 Before & After Theme Application
+            </h2>
+            
+            <div class="before-after">
+                <div class="theme-preview theme-before">
+                    <h3 style="color: #3b82f6;">Before: Generic Blue Theme</h3>
+                    <p>Standard blue color scheme</p>
+                    <button style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px;">
+                        Generic Button
+                    </button>
+                </div>
+                
+                <div class="theme-preview theme-after">
+                    <h3>After: GI REACH Logo Colors</h3>
+                    <p>Rich navy blue with cyan accents</p>
+                    <button style="background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 6px;">
+                        Themed Button
+                    </button>
+                </div>
+            </div>
+
+            <h3 style="color: #1e3a8a; margin-top: 40px;">🚀 How It Works</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Upload Logo</h4>
+                    <p>Upload your logo image in the Page Editor</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Auto Analysis</h4>
+                    <p>AI analyzes colors and creates a palette</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Theme Generation</h4>
+                    <p>Generates primary, secondary, and accent colors</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Live Application</h4>
+                    <p>Colors applied instantly across the website</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3 style="color: #1e3a8a;">🎨 Extracted Color Palette from GI REACH Logo</h3>
+            <div class="color-palette" style="justify-content: center;">
+                <div class="color-swatch" style="background: #1e3a8a; width: 80px; height: 80px; font-size: 12px;">
+                    Primary<br>#1e3a8a
+                </div>
+                <div class="color-swatch" style="background: #06b6d4; width: 80px; height: 80px; font-size: 12px;">
+                    Accent<br>#06b6d4
+                </div>
+                <div class="color-swatch" style="background: #f0f9ff; color: #1f2937; width: 80px; height: 80px; font-size: 12px; text-shadow: none;">
+                    Secondary<br>#f0f9ff
+                </div>
+                <div class="color-swatch" style="background: #ff6b6b; width: 80px; height: 80px; font-size: 12px;">
+                    Highlight<br>#ff6b6b
+                </div>
+                <div class="color-swatch" style="background: #4682b4; width: 80px; height: 80px; font-size: 12px;">
+                    Support<br>#4682b4
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2 style="color: #1e3a8a; margin-bottom: 20px;">Ready to Transform Your Website?</h2>
+            <p style="color: #64748b; margin-bottom: 30px;">
+                Upload your logo and watch as your website automatically adopts your brand colors
+            </p>
+            <button onclick="window.open('http://localhost:5000/admin/login', '_blank')">
+                🚀 Try Color Extraction Now
+            </button>
+            <p style="font-size: 0.9rem; color: #64748b; margin-top: 15px;">
+                Login: admin@gireach.pk / admin123 → Page Editor → Logo Settings → Upload Logo
+            </p>
+        </div>
+
+        <div class="demo-section">
+            <h3 style="color: #1e3a8a;">✨ Features Included</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div>
+                    <h4>🎯 Smart Color Detection</h4>
+                    <ul>
+                        <li>Dominant color identification</li>
+                        <li>Saturation analysis</li>
+                        <li>Contrast optimization</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🎨 Theme Generation</h4>
+                    <ul>
+                        <li>Primary color selection</li>
+                        <li>Complementary colors</li>
+                        <li>Accessibility compliance</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>⚡ Real-time Application</h4>
+                    <ul>
+                        <li>Instant theme updates</li>
+                        <li>Live preview</li>
+                        <li>Cross-page consistency</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>🔧 Manual Override</h4>
+                    <ul>
+                        <li>Extract colors on demand</li>
+                        <li>Theme customization</li>
+                        <li>Color palette preview</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🎨 GI REACH Color Extraction Demo Loaded');
+        console.log('🏥 Logo Colors Detected:');
+        console.log('  Primary: #1e3a8a (Deep Navy)');
+        console.log('  Accent: #06b6d4 (Bright Cyan)');
+        console.log('  Secondary: #f0f9ff (Light Blue)');
+        console.log('  Highlight: #ff6b6b (Coral)');
+        console.log('  Support: #4682b4 (Steel Blue)');
+        console.log('🚀 Ready to test at: http://localhost:5000/admin/login');
+    </script>
+</body>
+</html>

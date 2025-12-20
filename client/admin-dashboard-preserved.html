@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Colors Preserved</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .success { border-left: 4px solid #10b981; }
+        .info { border-left: 4px solid #3b82f6; }
+        .warning { border-left: 4px solid #f59e0b; }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .admin-button {
+            background: #6b7280;
+        }
+        .admin-button:hover {
+            background: #4b5563;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .public-preview {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #06b6d4;
+        }
+        
+        .admin-preview {
+            background: #f8fafc;
+            color: #1f2937;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .nav-bar {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .public-nav {
+            background: #1e3a8a;
+            color: white;
+            border-bottom: 2px solid #1e40af;
+        }
+        
+        .admin-nav {
+            background: white;
+            color: #1f2937;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-preview {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛡️ Admin Dashboard Colors Preserved</h1>
+    
+    <div class="card success">
+        <h2>✅ Admin Dashboard Styling Protected!</h2>
+        <p>The admin dashboard maintains its original light theme while the public website uses the Deep Navy Blue background.</p>
+        
+        <h3>Protection Implemented:</h3>
+        <ul>
+            <li>✅ <strong>Route Detection:</strong> Theme only applies to public pages (non-/admin routes)</li>
+            <li>✅ <strong>Admin Classes:</strong> Admin components marked with protective CSS classes</li>
+            <li>✅ <strong>Styling Preservation:</strong> Admin pages keep original white/gray color scheme</li>
+            <li>✅ <strong>Selective Application:</strong> Deep Navy Blue theme excluded from admin areas</li>
+        </ul>
+    </div>
+
+    <div class="card info">
+        <h2>🔄 Public vs Admin Theme Comparison</h2>
+        <div class="comparison">
+            <div class="public-preview">
+                <h3>🌊 Public Website</h3>
+                <div class="nav-bar public-nav">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #06b6d4; border-radius: 6px; display: flex; align-items: center; justify-content: center;">🏥</div>
+                        <span style="font-weight: bold;">GI REACH</span>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <span style="color: #06b6d4;">Home</span>
+                        <span>About</span>
+                        <span>Programs</span>
+                    </div>
+                </div>
+                <div style="padding: 15px;">
+                    <h4 style="color: white; margin-bottom: 10px;">Deep Navy Blue Theme</h4>
+                    <p style="color: #cbd5e1; margin-bottom: 15px;">Professional medical website with dark background</p>
+                    <button style="background: #06b6d4; border: none; padding: 8px 16px; border-radius: 6px; color: white;">Join Now</button>
+                </div>
+            </div>
+            
+            <div class="admin-preview">
+                <h3>🔧 Admin Dashboard</h3>
+                <div class="nav-bar admin-nav">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #3b82f6; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white;">⚙️</div>
+                        <span style="font-weight: bold;">Admin Panel</span>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <span style="color: #3b82f6;">Dashboard</span>
+                        <span>Settings</span>
+                        <span>Users</span>
+                    </div>
+                </div>
+                <div class="sidebar-preview">
+                    <h4 style="color: #1f2937; margin-bottom: 10px;">Original Light Theme</h4>
+                    <p style="color: #6b7280; margin-bottom: 15px;">Clean admin interface with light colors</p>
+                    <button class="admin-button" style="padding: 8px 16px; border-radius: 6px;">Manage Content</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🛠️ Technical Implementation</h2>
+        
+        <h3>Route-Based Theme Application:</h3>
+        <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 14px;">
+// Theme only applies to public pages<br>
+if (!window.location.pathname.startsWith('/admin')) {<br>
+&nbsp;&nbsp;themeStore.applyDeepNavyTheme();<br>
+} else {<br>
+&nbsp;&nbsp;themeStore.preserveAdminStyling();<br>
+}
+        </div>
+        
+        <h3>Admin Component Protection:</h3>
+        <ul>
+            <li><strong>Admin Layout:</strong> Added <code>admin-layout</code> class</li>
+            <li><strong>Admin Sidebar:</strong> Added <code>admin-sidebar</code> class</li>
+            <li><strong>Admin Header:</strong> Added <code>admin-header</code> class</li>
+            <li><strong>Admin Main:</strong> Added <code>admin-main-content</code> class</li>
+        </ul>
+        
+        <h3>Styling Preservation:</h3>
+        <ul>
+            <li><strong>Background:</strong> Keeps original white/gray backgrounds</li>
+            <li><strong>Text:</strong> Maintains dark text for readability</li>
+            <li><strong>Navigation:</strong> Preserves light admin navigation styling</li>
+            <li><strong>Components:</strong> All admin UI components unchanged</li>
+        </ul>
+    </div>
+
+    <div class="card warning">
+        <h2>🧪 Test Both Themes</h2>
+        <p>Verify that both the public website and admin dashboard have their correct themes:</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+            <div style="background: #1e3a8a; color: white; padding: 20px; border-radius: 8px;">
+                <h4>🌊 Public Website</h4>
+                <p>Should have Deep Navy Blue background</p>
+                <button onclick="window.open('http://localhost:5000', '_blank')" style="background: #06b6d4;">
+                    View Public Site
+                </button>
+            </div>
+            <div style="background: #f8fafc; color: #1f2937; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4>🔧 Admin Dashboard</h4>
+                <p>Should have original light theme</p>
+                <button onclick="window.open('http://localhost:5000/admin/login', '_blank')" class="admin-button">
+                    View Admin Panel
+                </button>
+            </div>
+        </div>
+        
+        <h3>What to Check:</h3>
+        <ul>
+            <li><strong>Public Pages:</strong> Deep Navy Blue background (#1e3a8a)</li>
+            <li><strong>Admin Pages:</strong> Light gray background (#f8fafc)</li>
+            <li><strong>Navigation:</strong> Different styling for public vs admin</li>
+            <li><strong>Text Contrast:</strong> White text on public, dark text on admin</li>
+        </ul>
+    </div>
+
+    <div class="card success">
+        <h2>🎯 Summary</h2>
+        <p>The theme system now works perfectly with dual styling:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+            <div style="background: #1e3a8a; color: white; padding: 15px; border-radius: 8px;">
+                <h4 style="color: #06b6d4;">🌊 Public Website</h4>
+                <p>Deep Navy Blue theme for professional medical appearance</p>
+            </div>
+            <div style="background: #f8fafc; color: #1f2937; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <h4 style="color: #3b82f6;">🔧 Admin Dashboard</h4>
+                <p>Original light theme for clean admin interface</p>
+            </div>
+            <div style="background: #10b981; color: white; padding: 15px; border-radius: 8px;">
+                <h4>✅ Route Protection</h4>
+                <p>Automatic theme switching based on URL path</p>
+            </div>
+            <div style="background: #f59e0b; color: white; padding: 15px; border-radius: 8px;">
+                <h4>🛡️ Style Preservation</h4>
+                <p>Admin components protected from theme changes</p>
+            </div>
+        </div>
+        
+        <p style="font-size: 1.2em; font-weight: bold; color: #10b981; text-align: center;">
+            🎉 Perfect dual-theme system: Deep Navy Blue for public, Light theme for admin!
+        </p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            console.log('🛡️ Admin Dashboard Colors Preserved');
+            console.log('🌊 Public Website: Deep Navy Blue (#1e3a8a)');
+            console.log('🔧 Admin Dashboard: Original Light Theme');
+            console.log('✅ Route-based theme protection active');
+            console.log('🧪 Test Public: http://localhost:5000');
+            console.log('🧪 Test Admin: http://localhost:5000/admin/login');
+        };
+    </script>
+</body>
+</html>

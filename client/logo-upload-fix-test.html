@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Upload Fix - Test Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .success { border-left: 4px solid #10b981; }
+        .error { border-left: 4px solid #ef4444; }
+        .info { border-left: 4px solid #06b6d4; }
+        
+        button {
+            background: #06b6d4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+        
+        .status-good { color: #10b981; }
+        .status-bad { color: #ef4444; }
+        .status-warning { color: #f59e0b; }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>✅ Logo Upload Fix - Verification Test</h1>
+    
+    <div class="test-card success">
+        <h2>🎉 Scope Issue Fixed!</h2>
+        <p>The <code>setLogoSettings is not defined</code> error has been resolved by:</p>
+        <ul>
+            <li>✅ Removing invalid <code>setLogoSettings</code> call from <code>img.onload</code> callback</li>
+            <li>✅ Using proper <code>onUpdateSetting</code> function which has correct scope</li>
+            <li>✅ Ensuring immediate save to localStorage on each setting update</li>
+            <li>✅ Maintaining proper React component state management</li>
+        </ul>
+    </div>
+
+    <div class="test-card info">
+        <h2>🔧 What Was Fixed</h2>
+        <p><strong>Problem:</strong> JavaScript scope issue in the logo upload function</p>
+        <div class="code-block">
+// ❌ BEFORE (Caused Error):
+img.onload = async () => {
+  setLogoSettings(prev => ({ // ❌ Not in scope!
+    ...prev,
+    imageUrl: result
+  }));
+};
+
+// ✅ AFTER (Fixed):
+img.onload = async () => {
+  onUpdateSetting('imageUrl', result); // ✅ Proper scope!
+  onUpdateSetting('imageWidth', width);
+  onUpdateSetting('imageHeight', height);
+};
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🧪 Test the Fix</h2>
+        <p>Follow these steps to verify the fix works:</p>
+        <ol>
+            <li><strong>Go to Admin Panel:</strong> <code>http://localhost:5000/admin/login</code></li>
+            <li><strong>Login:</strong> admin@gireach.pk / admin123</li>
+            <li><strong>Navigate to:</strong> Page Editor → Logo Settings</li>
+            <li><strong>Change logo type to:</strong> "Custom Image"</li>
+            <li><strong>Upload an image:</strong> Should work without errors</li>
+            <li><strong>Check navigation:</strong> Logo should appear and persist</li>
+        </ol>
+        
+        <button onclick="window.open('http://localhost:5000/admin/login', '_blank')">
+            🚀 Test Logo Upload Now
+        </button>
+    </div>
+
+    <div class="test-card">
+        <h2>📊 Expected Behavior</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <h3 class="status-good">✅ Should Work:</h3>
+                <ul>
+                    <li>Upload logo without errors</li>
+                    <li>Logo appears immediately</li>
+                    <li>Logo persists across pages</li>
+                    <li>Settings save automatically</li>
+                    <li>Color extraction works</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="status-bad">❌ Should Not Happen:</h3>
+                <ul>
+                    <li>"setLogoSettings is not defined" error</li>
+                    <li>Logo disappearing after upload</li>
+                    <li>Settings not saving</li>
+                    <li>Console errors during upload</li>
+                    <li>Page crashes or freezes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔍 Debug Information</h2>
+        <p>If you still encounter issues, check the browser console for:</p>
+        <ul>
+            <li><strong>Logo Settings:</strong> Should show successful save messages</li>
+            <li><strong>Color Extraction:</strong> Should show analysis progress</li>
+            <li><strong>Storage Events:</strong> Should show event dispatching</li>
+            <li><strong>Navigation Updates:</strong> Should show logo refresh messages</li>
+        </ul>
+        
+        <button onclick="checkConsoleMessages()">Check Console Messages</button>
+        <div id="consoleCheck"></div>
+    </div>
+
+    <div class="test-card success">
+        <h2>🎯 Summary</h2>
+        <p>The logo upload functionality should now work perfectly with:</p>
+        <ul>
+            <li>✅ <strong>No JavaScript errors</strong> during upload</li>
+            <li>✅ <strong>Immediate logo display</strong> after upload</li>
+            <li>✅ <strong>Persistent logo</strong> across page navigation</li>
+            <li>✅ <strong>Automatic color extraction</strong> and theme application</li>
+            <li>✅ <strong>Real-time updates</strong> in navigation component</li>
+        </ul>
+        
+        <p><strong>The scope issue has been completely resolved!</strong></p>
+    </div>
+
+    <script>
+        function checkConsoleMessages() {
+            const checkDiv = document.getElementById('consoleCheck');
+            checkDiv.innerHTML = `
+                <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                    <h4>Console Messages to Look For:</h4>
+                    <ul style="font-family: monospace; font-size: 12px;">
+                        <li class="status-good">✅ "PageEditor: Updating logo setting"</li>
+                        <li class="status-good">✅ "LogoStore: Saving logo settings"</li>
+                        <li class="status-good">✅ "Navigation: Loading logo settings"</li>
+                        <li class="status-good">✅ "Starting color extraction from"</li>
+                        <li class="status-bad">❌ "setLogoSettings is not defined" (Should NOT appear)</li>
+                    </ul>
+                    <p><strong>Open browser console (F12) and upload a logo to see these messages.</strong></p>
+                </div>
+            `;
+        }
+
+        // Initialize
+        window.onload = function() {
+            console.log('✅ Logo Upload Fix Test Page Loaded');
+            console.log('🔧 Scope issue has been resolved');
+            console.log('🚀 Ready to test logo upload functionality');
+            console.log('📍 Admin Panel: http://localhost:5000/admin/login');
+        };
+    </script>
+</body>
+</html>

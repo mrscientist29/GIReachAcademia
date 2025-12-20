@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Editor Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .logo-preview {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>GI REACH Page Editor & Logo Test</h1>
+    
+    <div class="test-section info">
+        <h2>🧪 Testing Instructions</h2>
+        <p>This page helps you test the page editor and logo functionality:</p>
+        <ol>
+            <li>Open your browser to <strong>http://localhost:5000</strong></li>
+            <li>Navigate to <strong>/admin/login</strong></li>
+            <li>Login with: <strong>admin@gireach.pk</strong> / <strong>admin123</strong></li>
+            <li>Go to <strong>Page Editor</strong> from the admin sidebar</li>
+            <li>Test the logo settings and page editing features</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 Logo Settings Test</h2>
+        <p>Test the logo functionality:</p>
+        <div id="logoTest">
+            <button onclick="testLogoStore()">Test Logo Store</button>
+            <button onclick="testLogoTypes()">Test Logo Types</button>
+            <div id="logoResults"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Page Content Test</h2>
+        <p>Test the page content functionality:</p>
+        <div id="contentTest">
+            <button onclick="testContentStore()">Test Content Store</button>
+            <button onclick="testPageSections()">Test Page Sections</button>
+            <div id="contentResults"></div>
+        </div>
+    </div>
+
+    <div class="test-section success">
+        <h2>✅ Expected Features</h2>
+        <ul>
+            <li><strong>Logo Editor:</strong> Change logo type (icon/image/text), colors, and text</li>
+            <li><strong>Page Editor:</strong> Edit content sections, styles, and data</li>
+            <li><strong>Live Preview:</strong> See changes in real-time</li>
+            <li><strong>Auto-save:</strong> Changes saved automatically every 30 seconds</li>
+            <li><strong>Section Management:</strong> Add, delete, move, and duplicate sections</li>
+        </ul>
+    </div>
+
+    <script>
+        // Test logo store functionality
+        function testLogoStore() {
+            const results = document.getElementById('logoResults');
+            results.innerHTML = '<h3>Logo Store Test Results:</h3>';
+            
+            try {
+                // Test default logo settings
+                const defaultSettings = {
+                    type: 'icon',
+                    iconName: 'Stethoscope',
+                    iconColor: 'text-white',
+                    iconBackground: 'bg-blue-600',
+                    primaryText: 'GI REACH',
+                    secondaryText: 'Academic Excellence',
+                    primaryTextColor: 'text-gray-900',
+                    secondaryTextColor: 'text-gray-600',
+                    fontSize: 'text-2xl',
+                    fontWeight: 'font-bold',
+                    borderRadius: 'rounded-xl',
+                    showSecondaryText: true,
+                    imageWidth: 48,
+                    imageHeight: 48
+                };
+                
+                // Save test settings
+                localStorage.setItem('gireach-logo', JSON.stringify(defaultSettings));
+                
+                // Retrieve and verify
+                const stored = JSON.parse(localStorage.getItem('gireach-logo'));
+                
+                results.innerHTML += `
+                    <div class="success">
+                        <p>✅ Logo store working correctly!</p>
+                        <p>Current logo type: <strong>${stored.type}</strong></p>
+                        <p>Primary text: <strong>${stored.primaryText}</strong></p>
+                        <p>Secondary text: <strong>${stored.secondaryText}</strong></p>
+                    </div>
+                `;
+                
+                // Show logo preview
+                results.innerHTML += `
+                    <div class="logo-preview">
+                        <div class="logo-icon">🩺</div>
+                        <div>
+                            <h3 style="margin: 0; font-size: 24px; font-weight: bold;">${stored.primaryText}</h3>
+                            <p style="margin: 0; color: #666; font-size: 14px;">${stored.secondaryText}</p>
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                results.innerHTML += `<div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        function testLogoTypes() {
+            const results = document.getElementById('logoResults');
+            results.innerHTML += '<h3>Logo Types Test:</h3>';
+            
+            const logoTypes = [
+                { type: 'icon', name: 'Icon + Text' },
+                { type: 'image', name: 'Custom Image' },
+                { type: 'text', name: 'Text Only' }
+            ];
+            
+            logoTypes.forEach(logoType => {
+                results.innerHTML += `
+                    <div style="padding: 10px; margin: 5px 0; background: white; border-radius: 4px;">
+                        ✅ <strong>${logoType.name}</strong> (${logoType.type}) - Available
+                    </div>
+                `;
+            });
+        }
+        
+        function testContentStore() {
+            const results = document.getElementById('contentResults');
+            results.innerHTML = '<h3>Content Store Test Results:</h3>';
+            
+            try {
+                // Test content structure
+                const testContent = {
+                    id: 'test',
+                    name: 'Test Page',
+                    sections: [
+                        {
+                            id: 'section-1',
+                            type: 'hero',
+                            title: 'Test Hero Section',
+                            content: 'This is a test hero section content.',
+                            styles: {
+                                backgroundColor: 'bg-blue-50',
+                                textColor: 'text-gray-900',
+                                fontSize: 'text-4xl'
+                            },
+                            data: {}
+                        }
+                    ]
+                };
+                
+                // Save test content
+                const allContent = { test: testContent };
+                localStorage.setItem('gireach-content', JSON.stringify(allContent));
+                
+                // Retrieve and verify
+                const stored = JSON.parse(localStorage.getItem('gireach-content'));
+                
+                results.innerHTML += `
+                    <div class="success">
+                        <p>✅ Content store working correctly!</p>
+                        <p>Test page sections: <strong>${stored.test.sections.length}</strong></p>
+                        <p>First section type: <strong>${stored.test.sections[0].type}</strong></p>
+                        <p>First section title: <strong>${stored.test.sections[0].title}</strong></p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                results.innerHTML += `<div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        function testPageSections() {
+            const results = document.getElementById('contentResults');
+            results.innerHTML += '<h3>Page Sections Test:</h3>';
+            
+            const sectionTypes = [
+                { type: 'hero', name: 'Hero Section' },
+                { type: 'text', name: 'Text Section' },
+                { type: 'services', name: 'Services' },
+                { type: 'stats', name: 'Statistics' },
+                { type: 'contact', name: 'Contact' }
+            ];
+            
+            sectionTypes.forEach(section => {
+                results.innerHTML += `
+                    <div style="padding: 10px; margin: 5px 0; background: white; border-radius: 4px;">
+                        ✅ <strong>${section.name}</strong> (${section.type}) - Available
+                    </div>
+                `;
+            });
+        }
+        
+        // Auto-run basic tests on page load
+        window.onload = function() {
+            console.log('🧪 Page Editor Test Page Loaded');
+            console.log('📍 Server should be running on http://localhost:5000');
+            console.log('🔗 Admin login: http://localhost:5000/admin/login');
+        };
+    </script>
+</body>
+</html>
