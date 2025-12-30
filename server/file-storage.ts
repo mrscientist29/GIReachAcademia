@@ -1,11 +1,12 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import type { WebsiteSettings, InsertWebsiteSettings, PageContent, InsertPageContent, User, InsertUser } from '@shared/schema';
+import type { WebsiteSettings, InsertWebsiteSettings, PageContent, InsertPageContent, User, InsertUser, MediaLibrary, InsertMediaLibrary } from '@shared/schema';
 
 const STORAGE_DIR = join(process.cwd(), 'data');
 const SETTINGS_FILE = join(STORAGE_DIR, 'website-settings.json');
 const CONTENT_FILE = join(STORAGE_DIR, 'page-contents.json');
 const USERS_FILE = join(STORAGE_DIR, 'users.json');
+const MEDIA_FILE = join(STORAGE_DIR, 'media-library.json');
 
 // Ensure storage directory exists
 async function ensureStorageDir() {
@@ -22,6 +23,7 @@ export class FileStorage {
   private contentCache: Map<string, PageContent> = new Map();
   private usersCache: Map<string, User> = new Map();
   private usersByEmail: Map<string, User> = new Map();
+  private mediaCache: Map<string, MediaLibrary> = new Map();
   private initialized = false;
 
   async init() {
@@ -31,6 +33,7 @@ export class FileStorage {
     await this.loadSettings();
     await this.loadContent();
     await this.loadUsers();
+    await this.loadMedia();
     this.initialized = true;
   }
 
@@ -75,6 +78,20 @@ export class FileStorage {
     }
   }
 
+  private async loadMedia() {
+    try {
+      const data = await fs.readFile(MEDIA_FILE, 'utf-8');
+      const mediaItems: MediaLibrary[] = JSON.parse(data);
+      for (const media of mediaItems) {
+        this.mediaCache.set(media.id, media);
+      }
+      console.log(`Loaded ${mediaItems.length} media items from file storage`);
+    } catch (error) {
+      // File doesn't exist yet, that's okay
+      console.log('No existing media file found, starting fresh');
+    }
+  }
+
   private async saveSettings() {
     const settings = Array.from(this.settingsCache.values());
     await fs.writeFile(SETTINGS_FILE, JSON.stringify(settings, null, 2));
@@ -88,6 +105,11 @@ export class FileStorage {
   private async saveUsers() {
     const users = Array.from(this.usersCache.values());
     await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+  }
+
+  private async saveMedia() {
+    const mediaItems = Array.from(this.mediaCache.values());
+    await fs.writeFile(MEDIA_FILE, JSON.stringify(mediaItems, null, 2));
   }
 
   // Website settings operations
@@ -255,6 +277,60 @@ export class FileStorage {
     
     await this.saveUsers();
     return updated;
+  }
+
+  // Media library operations
+  async getMediaLibrary(): Promise<MediaLibrary[]> {
+    await this.init();
+    const mediaItems = Array.from(this.mediaCache.values());
+    return mediaItems.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async getMediaItem(id: string): Promise<MediaLibrary | undefined> {
+    await this.init();
+    return this.mediaCache.get(id);
+  }
+
+  async uploadMedia(mediaData: InsertMediaLibrary): Promise<MediaLibrary> {
+    await this.init();
+    
+    const media: MediaLibrary = {
+      id: `media-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`,
+      ...mediaData,
+      createdAt: new Date(),
+    };
+
+    this.mediaCache.set(media.id, media);
+    await this.saveMedia();
+    
+    console.log(`Uploaded media: ${media.originalName} with ID: ${media.id}`);
+    return media;
+  }
+
+  async updateMediaItem(id: string, updates: Partial<InsertMediaLibrary>): Promise<MediaLibrary | undefined> {
+    await this.init();
+    
+    const existing = this.mediaCache.get(id);
+    if (!existing) return undefined;
+
+    const updated: MediaLibrary = {
+      ...existing,
+      ...updates,
+    };
+
+    this.mediaCache.set(id, updated);
+    await this.saveMedia();
+    return updated;
+  }
+
+  async deleteMediaItem(id: string): Promise<boolean> {
+    await this.init();
+    
+    const deleted = this.mediaCache.delete(id);
+    if (deleted) {
+      await this.saveMedia();
+    }
+    return deleted;
   }
 }
 

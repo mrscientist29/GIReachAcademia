@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Content Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { background: #d1fae5; color: #065f46; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .error { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { background: #dbeafe; color: #1e40af; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .warning { background: #fef3c7; color: #92400e; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #2563eb; }
+        pre {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .page-link {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #374151;
+        }
+        .page-link:hover { background: #e5e7eb; }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-ok { background: #10b981; }
+        .status-error { background: #ef4444; }
+        .status-warning { background: #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Dynamic Content Debugging Tool</h1>
+    <p>This tool helps diagnose why dashboard changes aren't appearing on the website.</p>
+
+    <div class="test-card">
+        <h2>🚀 Quick Test</h2>
+        <button class="btn" onclick="runAllTests()">Run All Tests</button>
+        <button class="btn" onclick="clearResults()">Clear Results</button>
+        <div id="quickResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>📊 API Content Test</h2>
+        <p>Testing if the content API returns updated data for each page:</p>
+        <button class="btn" onclick="testContentAPI()">Test Content API</button>
+        <div id="apiResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>🌐 Live Page Test</h2>
+        <p>Open each page to verify content is loading dynamically:</p>
+        <div>
+            <a href="/" target="_blank" class="page-link">🏠 Home</a>
+            <a href="/about" target="_blank" class="page-link">ℹ️ About</a>
+            <a href="/programs" target="_blank" class="page-link">📚 Programs</a>
+            <a href="/publications" target="_blank" class="page-link">📖 Publications</a>
+            <a href="/resources" target="_blank" class="page-link">📋 Resources</a>
+            <a href="/contact" target="_blank" class="page-link">📞 Contact</a>
+        </div>
+        <div class="info">
+            <strong>Instructions:</strong> Open each link in a new tab and verify the content matches what you edited in the dashboard.
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>⚙️ Page Editor Test</h2>
+        <p>Testing page editor functionality:</p>
+        <button class="btn" onclick="testPageEditor()">Test Page Editor Access</button>
+        <div id="editorResults"></div>
+        
+        <div class="info">
+            <h3>Manual Page Editor Test:</h3>
+            <ol>
+                <li>Go to <a href="/admin/page-editor" target="_blank">Admin → Page Editor</a></li>
+                <li>Select different pages from the dropdown (About, Programs, etc.)</li>
+                <li>Make a small edit to the title or content</li>
+                <li>Click "Save Changes"</li>
+                <li>Open the corresponding public page to verify changes appear</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>💾 Database Content Analysis</h2>
+        <p>Analyzing what content is stored in the database:</p>
+        <button class="btn" onclick="analyzeDatabase()">Analyze Database</button>
+        <div id="dbResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 Troubleshooting Guide</h2>
+        <div class="warning">
+            <h3>Common Issues & Solutions:</h3>
+            <ul>
+                <li><strong>Browser Cache:</strong> Try hard refresh (Ctrl+F5 or Cmd+Shift+R) or open in incognito mode</li>
+                <li><strong>Page Editor Only Shows Homepage:</strong> Check if page selector dropdown is working</li>
+                <li><strong>Changes Not Persisting:</strong> Check browser console for API errors</li>
+                <li><strong>Content Not Loading:</strong> Verify dynamic components are being used</li>
+                <li><strong>Database Issues:</strong> Check if content is being saved to database</li>
+            </ul>
+        </div>
+        
+        <div class="info">
+            <h3>Debug Steps:</h3>
+            <ol>
+                <li>Run all tests above to identify the issue</li>
+                <li>Check browser console (F12) for JavaScript errors</li>
+                <li>Verify network requests are successful (Network tab in dev tools)</li>
+                <li>Test in incognito mode to rule out caching issues</li>
+                <li>Try editing different pages in the page editor</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {};
+
+        async function runAllTests() {
+            const quickDiv = document.getElementById('quickResults');
+            quickDiv.innerHTML = '<div class="info">Running comprehensive tests...</div>';
+            
+            testResults = {};
+            
+            // Run all tests
+            await testContentAPI();
+            await analyzeDatabase();
+            await testPageEditor();
+            
+            // Show summary
+            const totalTests = Object.keys(testResults).length;
+            const passedTests = Object.values(testResults).filter(r => r.status === 'success').length;
+            const failedTests = totalTests - passedTests;
+            
+            let summaryClass = 'success';
+            if (failedTests > 0) summaryClass = failedTests > totalTests / 2 ? 'error' : 'warning';
+            
+            quickDiv.innerHTML = `
+                <div class="${summaryClass}">
+                    <h3>Test Summary</h3>
+                    <p><span class="status-indicator status-ok"></span>Passed: ${passedTests}</p>
+                    <p><span class="status-indicator status-error"></span>Failed: ${failedTests}</p>
+                    <p><strong>Overall Status:</strong> ${failedTests === 0 ? '✅ All tests passed' : `⚠️ ${failedTests} test(s) failed`}</p>
+                </div>
+            `;
+        }
+
+        async function testContentAPI() {
+            const resultDiv = document.getElementById('apiResults');
+            resultDiv.innerHTML = '<div class="info">Testing content API endpoints...</div>';
+
+            const pages = ['home', 'about', 'programs', 'publications', 'resources', 'contact', 'join'];
+            const results = [];
+            let allPassed = true;
+
+            for (const pageId of pages) {
+                try {
+                    const response = await fetch(`/api/content/${pageId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const sectionsCount = data.sections ? data.sections.length : 0;
+                        const lastUpdated = data.updatedAt ? new Date(data.updatedAt).toLocaleString() : 'Unknown';
+                        
+                        results.push({
+                            page: pageId,
+                            status: 'success',
+                            message: `✅ ${pageId}: ${sectionsCount} sections, updated ${lastUpdated}`,
+                            data: data
+                        });
+                    } else {
+                        allPassed = false;
+                        results.push({
+                            page: pageId,
+                            status: 'error',
+                            message: `❌ ${pageId}: HTTP ${response.status}`,
+                            data: null
+                        });
+                    }
+                } catch (error) {
+                    allPassed = false;
+                    results.push({
+                        page: pageId,
+                        status: 'error',
+                        message: `❌ ${pageId}: ${error.message}`,
+                        data: null
+                    });
+                }
+            }
+
+            testResults.contentAPI = { status: allPassed ? 'success' : 'error', results };
+
+            const resultHtml = results.map(r => `
+                <div class="${r.status}">
+                    ${r.message}
+                    ${r.data ? `<br><small>Sample content: "${r.data.sections?.[0]?.title || 'No title'}"</small>` : ''}
+                </div>
+            `).join('');
+
+            resultDiv.innerHTML = `
+                <div class="${allPassed ? 'success' : 'error'}">
+                    <h3>Content API Results:</h3>
+                    ${resultHtml}
+                </div>
+            `;
+        }
+
+        async function analyzeDatabase() {
+            const resultDiv = document.getElementById('dbResults');
+            resultDiv.innerHTML = '<div class="info">Analyzing database content...</div>';
+
+            try {
+                const response = await fetch('/api/content');
+                if (response.ok) {
+                    const allContent = await response.json();
+                    
+                    testResults.database = { status: 'success', data: allContent };
+                    
+                    const analysis = allContent.map(page => {
+                        const sectionsCount = page.sections ? page.sections.length : 0;
+                        const lastUpdated = page.updatedAt ? new Date(page.updatedAt).toLocaleString() : 'Unknown';
+                        const hasRecentChanges = page.updatedAt && (Date.now() - new Date(page.updatedAt).getTime()) < 24 * 60 * 60 * 1000;
+                        
+                        return `
+                            <div style="border: 1px solid #d1d5db; padding: 15px; margin: 10px 0; border-radius: 6px; background: white;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong>${page.pageName} (${page.pageId})</strong>
+                                    ${hasRecentChanges ? '<span style="background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">Recently Updated</span>' : ''}
+                                </div>
+                                <div style="margin-top: 8px; font-size: 14px; color: #6b7280;">
+                                    📄 Sections: ${sectionsCount}<br>
+                                    🕒 Last Updated: ${lastUpdated}<br>
+                                    📊 Size: ${JSON.stringify(page).length} bytes<br>
+                                    ${page.sections?.[0] ? `📝 First Section: "${page.sections[0].title}"` : '⚠️ No sections found'}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>Database Analysis (${allContent.length} pages found):</h3>
+                            ${analysis}
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                testResults.database = { status: 'error', error: error.message };
+                resultDiv.innerHTML = `<div class="error">❌ Database analysis failed: ${error.message}</div>`;
+            }
+        }
+
+        async function testPageEditor() {
+            const resultDiv = document.getElementById('editorResults');
+            
+            testResults.pageEditor = { status: 'success' };
+            
+            resultDiv.innerHTML = `
+                <div class="success">
+                    <h3>Page Editor Access Test:</h3>
+                    <p>✅ Page editor should be accessible at: <a href="/admin/page-editor" target="_blank">/admin/page-editor</a></p>
+                    
+                    <div class="info" style="margin-top: 15px;">
+                        <h4>Test Instructions:</h4>
+                        <ol>
+                            <li>Click the link above to open the page editor</li>
+                            <li>Use the page selector on the left to choose different pages</li>
+                            <li>Make a small edit (change a title or add text)</li>
+                            <li>Click "Save Changes"</li>
+                            <li>Open the corresponding public page to verify changes</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="warning" style="margin-top: 15px;">
+                        <h4>If Page Editor Only Shows Homepage:</h4>
+                        <ul>
+                            <li>Check if the page selector dropdown on the left is working</li>
+                            <li>Try clicking on different pages (About, Programs, etc.)</li>
+                            <li>Look for JavaScript errors in browser console (F12)</li>
+                            <li>Refresh the page editor and try again</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function clearResults() {
+            document.getElementById('quickResults').innerHTML = '';
+            document.getElementById('apiResults').innerHTML = '';
+            document.getElementById('dbResults').innerHTML = '';
+            document.getElementById('editorResults').innerHTML = '';
+            testResults = {};
+        }
+
+        // Auto-run basic tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testContentAPI();
+                analyzeDatabase();
+            }, 1000);
+        });
+
+        // Add cache busting helper
+        function addCacheBustingTest() {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-card';
+            testDiv.innerHTML = `
+                <h2>🔄 Cache Busting Test</h2>
+                <p>Test if browser caching is causing issues:</p>
+                <button class="btn" onclick="testWithCacheBusting()">Test with Cache Busting</button>
+                <div id="cacheResults"></div>
+            `;
+            document.body.appendChild(testDiv);
+        }
+
+        async function testWithCacheBusting() {
+            const resultDiv = document.getElementById('cacheResults');
+            resultDiv.innerHTML = '<div class="info">Testing with cache busting...</div>';
+            
+            try {
+                const timestamp = Date.now();
+                const response = await fetch(`/api/content/about?_t=${timestamp}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            ✅ Cache busting test successful<br>
+                            About page has ${data.sections?.length || 0} sections<br>
+                            <small>If this works but normal requests don't, you have a caching issue.</small>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Cache busting test failed: ${error.message}</div>`;
+            }
+        }
+
+        // Add the cache busting test
+        addCacheBustingTest();
+    </script>
+</body>
+</html>

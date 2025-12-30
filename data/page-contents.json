@@ -1,27 +1,28 @@
 [
   {
-    "id": "file-1765973567251",
+    "id": "file-1766949588796",
     "pageId": "home",
     "pageName": "Homepage",
     "sections": [
       {
         "id": "hero-1",
         "type": "hero",
-        "title": "Advancing Medical Research Through Excellence",
+        "title": "Advancing Medical Research Through Excellenceasdfa",
         "content": "Join Pakistan's premier research community dedicated to advancing gastroenterology and medical sciences through collaborative research, mentorship, and academic excellence.",
-        "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
         "styles": {
           "backgroundColor": "bg-gray-50",
-          "textColor": "text-gray-900",
-          "fontSize": "text-4xl lg:text-6xl"
-        }
+          "textColor": "text-gray-600",
+          "fontSize": "text-4xl lg:text-6xl",
+          "padding": "py-24"
+        },
+        "imageUrl": "/uploads/images/1766947161291-f4plkz90cxb.jpeg"
       },
       {
         "id": "about-1",
         "type": "text",
-        "title": "Leading Medical Research in Pakistan",
-        "content": "GI REACH is Pakistan's premier gastroenterology research organization, dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.",
-        "imageUrl": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "title": "Leading Medical Research in Pakistanasdfasf",
+        "content": "GI REACH is Pakistan's premier gastroenterology research organization, dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.sdfa",
+        "imageUrl": "/uploads/images/1766949379575-6qz2p8l65a7.jpeg",
         "styles": {
           "backgroundColor": "bg-white",
           "textColor": "text-gray-900"
@@ -110,40 +111,41 @@
     ],
     "isPublished": true,
     "updatedById": null,
-    "createdAt": "2025-12-17T12:12:47.251Z",
-    "updatedAt": "2025-12-17T12:12:47.251Z"
+    "createdAt": "2025-12-28T19:19:48.796Z",
+    "updatedAt": "2025-12-28T19:19:48.796Z"
   },
   {
-    "id": "file-1765969477077",
+    "id": "file-1766953231256",
     "pageId": "about",
     "pageName": "About Us",
     "sections": [
       {
         "id": "about-hero",
-        "type": "hero",
-        "title": "About GI REACH",
-        "content": "Pakistan's premier gastroenterology research organization dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.",
-        "imageUrl": "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "type": "services",
+        "title": "About GI REACHsfas",
+        "content": "Pakistan's premier gastroenterology research organization dedicated to advancing medical knowledge through collaborative research, education, and clinical excellence.vxzv",
+        "imageUrl": "/uploads/images/1766947161291-f4plkz90cxb.jpeg",
         "styles": {
-          "backgroundColor": "from-green-50 to-emerald-100",
-          "textColor": "text-gray-900"
+          "backgroundColor": "from-green-50 to-teal-100",
+          "textColor": "text-green-800"
         }
       },
       {
         "id": "about-mission",
         "type": "text",
-        "title": "Our Mission",
-        "content": "To advance gastroenterology research in Pakistan through collaborative excellence, innovative methodologies, and comprehensive support for researchers at all career stages.",
+        "title": "Our Missionss",
+        "content": "To advance gastroenterology research in Pakistan through collaborative excellence, innovative methodologies, and comprehensive support for researchers at all career stages.sss",
         "styles": {
           "backgroundColor": "bg-white",
           "textColor": "text-gray-900"
-        }
+        },
+        "imageUrl": "/uploads/images/1766949379575-6qz2p8l65a7.jpeg"
       },
       {
         "id": "about-vision",
         "type": "text",
-        "title": "Our Vision",
-        "content": "To be the leading platform for gastroenterology research in Pakistan, fostering a community of excellence that contributes to global medical knowledge and improves patient outcomes.",
+        "title": "Our Visionss",
+        "content": "To be the leading platform for gastroenterology research in Pakistan, fostering a community of excellence that contributes to global medical knowledge and improves patient outcomes.ss",
         "styles": {
           "backgroundColor": "bg-gray-50",
           "textColor": "text-gray-900"
@@ -151,23 +153,23 @@
       }
     ],
     "isPublished": true,
-    "updatedById": "dev-user-123",
-    "createdAt": "2025-12-17T11:04:37.077Z",
-    "updatedAt": "2025-12-17T11:04:37.077Z"
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:20:31.256Z",
+    "updatedAt": "2025-12-28T20:20:31.256Z"
   },
   {
-    "id": "file-1765969477164",
+    "id": "file-1766953356493",
     "pageId": "programs",
     "pageName": "Programs",
     "sections": [
       {
         "id": "programs-hero",
         "type": "hero",
-        "title": "Research Programs",
+        "title": "Research Programssss",
         "content": "Comprehensive programs designed to support researchers at every stage of their academic journey.",
-        "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "imageUrl": "/uploads/images/1766947161291-f4plkz90cxb.jpeg",
         "styles": {
-          "backgroundColor": "from-purple-50 to-pink-100",
+          "backgroundColor": "bg-gray-50",
           "textColor": "text-gray-900"
         }
       },
@@ -203,12 +205,12 @@
       }
     ],
     "isPublished": true,
-    "updatedById": "dev-user-123",
-    "createdAt": "2025-12-17T11:04:37.164Z",
-    "updatedAt": "2025-12-17T11:04:37.164Z"
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:22:36.493Z",
+    "updatedAt": "2025-12-28T20:22:36.493Z"
   },
   {
-    "id": "file-1765969477508",
+    "id": "file-1766953451197",
     "pageId": "publications",
     "pageName": "Publications",
     "sections": [
@@ -217,9 +219,9 @@
         "type": "hero",
         "title": "Research Publications",
         "content": "Discover our extensive collection of peer-reviewed research publications in gastroenterology and related fields.",
-        "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        "imageUrl": "/uploads/images/1766949379575-6qz2p8l65a7.jpeg",
         "styles": {
-          "backgroundColor": "from-blue-50 to-cyan-100",
+          "backgroundColor": "bg-gray-50",
           "textColor": "text-gray-900"
         }
       },
@@ -265,12 +267,12 @@
       }
     ],
     "isPublished": true,
-    "updatedById": "dev-user-123",
-    "createdAt": "2025-12-17T11:04:37.508Z",
-    "updatedAt": "2025-12-17T11:04:37.508Z"
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:24:11.197Z",
+    "updatedAt": "2025-12-28T20:24:11.197Z"
   },
   {
-    "id": "file-1765969477625",
+    "id": "file-1766953463534",
     "pageId": "resources",
     "pageName": "Resources",
     "sections": [
@@ -317,12 +319,12 @@
       }
     ],
     "isPublished": true,
-    "updatedById": "dev-user-123",
-    "createdAt": "2025-12-17T11:04:37.625Z",
-    "updatedAt": "2025-12-17T11:04:37.625Z"
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:24:23.534Z",
+    "updatedAt": "2025-12-28T20:24:23.534Z"
   },
   {
-    "id": "file-1765969477643",
+    "id": "file-1766953521956",
     "pageId": "contact",
     "pageName": "Contact",
     "sections": [
@@ -333,7 +335,7 @@
         "content": "Get in touch with our team to learn more about our programs, research opportunities, and how we can support your academic journey.",
         "imageUrl": "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
         "styles": {
-          "backgroundColor": "from-orange-50 to-red-100",
+          "backgroundColor": "bg-gray-50",
           "textColor": "text-gray-900"
         }
       },
@@ -365,12 +367,12 @@
       }
     ],
     "isPublished": true,
-    "updatedById": "dev-user-123",
-    "createdAt": "2025-12-17T11:04:37.643Z",
-    "updatedAt": "2025-12-17T11:04:37.643Z"
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:25:21.956Z",
+    "updatedAt": "2025-12-28T20:25:21.956Z"
   },
   {
-    "id": "file-1765995463433",
+    "id": "file-1766953582108",
     "pageId": "join",
     "pageName": "Join Us",
     "sections": [
@@ -418,7 +420,7 @@
     ],
     "isPublished": true,
     "updatedById": null,
-    "createdAt": "2025-12-17T18:17:43.433Z",
-    "updatedAt": "2025-12-17T18:17:43.433Z"
+    "createdAt": "2025-12-28T20:26:22.108Z",
+    "updatedAt": "2025-12-28T20:26:22.108Z"
   }
 ]

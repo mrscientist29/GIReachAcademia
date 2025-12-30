@@ -8,9 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import AdminLayout from "@/components/admin-layout";
+import { ImageUpload } from "@/components/image-upload";
+import FooterEditor from "@/components/footer-editor";
 import { contentStore, type PageContent, type ContentSection } from "@/lib/content-store";
 import { logoStore, type LogoSettings } from "@/lib/logo-store";
 import { globalSettingsStore } from "@/lib/settings-store";
+import { useAdminTracker } from "@/hooks/use-page-tracker";
 
 import { themeStore, type ThemeSettings } from "@/lib/theme-store";
 import { 
@@ -33,8 +36,24 @@ import {
   CheckCircle
 } from "lucide-react";
 
+// Helper function to convert Tailwind gradient classes to CSS gradients
+const getGradientColors = (gradientClass: string): string => {
+  const gradientMap: Record<string, string> = {
+    'from-blue-50 to-indigo-100': '#eff6ff, #e0e7ff',
+    'from-green-50 to-emerald-100': '#f0fdf4, #dcfce7',
+    'from-purple-50 to-pink-100': '#faf5ff, #fce7f3',
+    'from-orange-50 to-red-100': '#fff7ed, #fee2e2',
+    'from-indigo-50 to-purple-100': '#eef2ff, #e9d5ff',
+    'from-green-50 to-teal-100': '#f0fdf4, #ccfbf1',
+    'from-blue-50 to-cyan-100': '#eff6ff, #cffafe',
+  };
+  
+  return gradientMap[gradientClass] || '#eff6ff, #e0e7ff';
+};
+
 function PageEditorContent() {
   const { toast } = useToast();
+  const { trackAction, trackContentEdit } = useAdminTracker();
   const [selectedPage, setSelectedPage] = useState("logo");
   const [pageContent, setPageContent] = useState<PageContent | null>(null);
   const [logoSettings, setLogoSettings] = useState<LogoSettings>(logoStore.getLogoSettings());
@@ -43,6 +62,7 @@ function PageEditorContent() {
 
   const pages = [
     { id: "logo", name: "Logo Settings", description: "Website logo and branding" },
+    { id: "footer", name: "Footer Settings", description: "Website footer content and links" },
     { id: "home", name: "Homepage", description: "Main landing page" },
     { id: "about", name: "About Us", description: "Company information" },
     { id: "programs", name: "Programs", description: "Research programs" },
@@ -51,6 +71,34 @@ function PageEditorContent() {
     { id: "contact", name: "Contact", description: "Contact information" },
     { id: "join", name: "Join Us", description: "Membership page" },
   ];
+
+  // Enhanced page switching with proper state management
+  const handlePageSwitch = async (newPageId: string) => {
+    if (newPageId === selectedPage) {
+      console.log(`PageEditor: Already on page ${newPageId}, skipping switch`);
+      return;
+    }
+    
+    console.log(`PageEditor: Switching from ${selectedPage} to ${newPageId}`);
+    
+    // Save current page if there are changes and it's not the logo or footer page
+    if (selectedPage !== 'logo' && selectedPage !== 'footer' && pageContent) {
+      try {
+        console.log(`PageEditor: Auto-saving ${selectedPage} before switching`);
+        await contentStore.savePageContent(selectedPage, pageContent);
+        console.log(`PageEditor: Successfully auto-saved ${selectedPage}`);
+      } catch (error) {
+        console.warn(`PageEditor: Failed to auto-save ${selectedPage}:`, error);
+      }
+    }
+    
+    // Clear current state to prevent confusion
+    setPageContent(null);
+    setSelectedPage(newPageId);
+    
+    // Load new page content
+    await loadPageContent(newPageId);
+  };
 
   // Load page content based on selected page
   useEffect(() => {
@@ -79,6 +127,9 @@ function PageEditorContent() {
         const fallbackSettings = logoStore.getLogoSettingsSync();
         setLogoSettings(fallbackSettings);
       }
+      setPageContent(null);
+    } else if (pageId === 'footer') {
+      // Footer settings are handled by the FooterEditor component
       setPageContent(null);
     } else {
       try {
@@ -111,14 +162,26 @@ function PageEditorContent() {
         await globalSettingsStore.saveSetting('logo', logoSettings);
         console.log('PageEditor: Logo settings saved to database');
         
+        // Track action
+        trackAction('Updated logo settings');
+        
         toast({
           title: "Logo Settings Saved!",
           description: "Your logo changes are now live on your website and will appear on all devices.",
+        });
+      } else if (selectedPage === 'footer') {
+        // Footer settings are handled by the FooterEditor component itself
+        toast({
+          title: "Footer Settings",
+          description: "Use the Save Changes button in the Footer Editor to save your changes.",
         });
       } else if (pageContent) {
         // Save page content to database
         await contentStore.savePageContent(selectedPage, pageContent);
         console.log('PageEditor: Page content saved to database');
+        
+        // Track action
+        trackContentEdit(selectedPage, 'Updated');
         
         toast({
           title: "Content Saved Successfully!",
@@ -331,6 +394,9 @@ function PageEditorContent() {
       if (selectedPage === 'logo') {
         await globalSettingsStore.saveSetting('logo', logoSettings);
         console.log('PageEditor: Auto-saved logo settings to database');
+      } else if (selectedPage === 'footer') {
+        // Footer auto-save is handled by the FooterEditor component
+        console.log('PageEditor: Footer auto-save handled by FooterEditor component');
       } else if (pageContent) {
         await contentStore.savePageContent(selectedPage, pageContent);
         console.log('PageEditor: Auto-saved page content to database');
@@ -386,8 +452,8 @@ function PageEditorContent() {
     return () => clearInterval(interval);
   }, [pageContent, selectedPage, logoSettings]);
 
-  // Show loading only for non-logo pages that haven't loaded content yet
-  if (selectedPage !== 'logo' && !pageContent) {
+  // Show loading only for non-logo and non-footer pages that haven't loaded content yet
+  if (selectedPage !== 'logo' && selectedPage !== 'footer' && !pageContent) {
     return (
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
@@ -443,7 +509,7 @@ function PageEditorContent() {
                   {pages.map((page) => (
                     <button
                       key={page.id}
-                      onClick={() => setSelectedPage(page.id)}
+                      onClick={() => handlePageSwitch(page.id)}
                       className={`w-full text-left p-3 rounded-lg transition-colors ${
                         selectedPage === page.id
                           ? "bg-blue-50 text-blue-600 border border-blue-200"
@@ -467,6 +533,8 @@ function PageEditorContent() {
                 onUpdateSetting={updateLogoSetting}
                 onUpdateMultipleSettings={updateMultipleLogoSettings}
               />
+            ) : selectedPage === 'footer' ? (
+              <FooterEditor />
             ) : (
               <Card className="bg-white shadow-sm">
                 <CardContent className="p-6">
@@ -595,14 +663,30 @@ function PageEditorContent() {
                               />
                             </div>
                             <div className="flex space-x-4">
-                              <Button variant="outline" size="sm">
-                                <Upload className="h-4 w-4 mr-2" />
-                                Upload Image
-                              </Button>
-                              <Button variant="outline" size="sm">
-                                <ImageIcon className="h-4 w-4 mr-2" />
-                                Media Library
-                              </Button>
+                              <ImageUpload
+                                onImageSelect={(imageUrl, imageData) => {
+                                  updateSection(section.id, "imageUrl", imageUrl);
+                                }}
+                                currentImageUrl={section.imageUrl}
+                                trigger={
+                                  <Button variant="outline" size="sm">
+                                    <Upload className="h-4 w-4 mr-2" />
+                                    Upload Image
+                                  </Button>
+                                }
+                              />
+                              <ImageUpload
+                                onImageSelect={(imageUrl, imageData) => {
+                                  updateSection(section.id, "imageUrl", imageUrl);
+                                }}
+                                currentImageUrl={section.imageUrl}
+                                trigger={
+                                  <Button variant="outline" size="sm">
+                                    <ImageIcon className="h-4 w-4 mr-2" />
+                                    Media Library
+                                  </Button>
+                                }
+                              />
                             </div>
                             {section.imageUrl && (
                               <div className="mt-4">
@@ -636,10 +720,19 @@ function PageEditorContent() {
                                     <SelectItem value="bg-green-600">Green</SelectItem>
                                     <SelectItem value="bg-purple-50">Light Purple</SelectItem>
                                     <SelectItem value="bg-purple-600">Purple</SelectItem>
+                                    <SelectItem value="bg-red-50">Light Red</SelectItem>
+                                    <SelectItem value="bg-red-600">Red</SelectItem>
+                                    <SelectItem value="bg-yellow-50">Light Yellow</SelectItem>
+                                    <SelectItem value="bg-yellow-600">Yellow</SelectItem>
+                                    <SelectItem value="bg-indigo-50">Light Indigo</SelectItem>
+                                    <SelectItem value="bg-indigo-600">Indigo</SelectItem>
                                     <SelectItem value="from-blue-50 to-indigo-100">Blue Gradient</SelectItem>
                                     <SelectItem value="from-green-50 to-emerald-100">Green Gradient</SelectItem>
                                     <SelectItem value="from-purple-50 to-pink-100">Purple Gradient</SelectItem>
                                     <SelectItem value="from-orange-50 to-red-100">Orange Gradient</SelectItem>
+                                    <SelectItem value="from-indigo-50 to-purple-100">Indigo Gradient</SelectItem>
+                                    <SelectItem value="from-green-50 to-teal-100">Teal Gradient</SelectItem>
+                                    <SelectItem value="from-blue-50 to-cyan-100">Cyan Gradient</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
@@ -717,10 +810,10 @@ function PageEditorContent() {
                             <div className="bg-gray-50 rounded-lg p-4">
                               <h4 className="font-medium text-gray-900 mb-2">Style Preview</h4>
                               <div 
-                                className={`p-4 rounded-lg ${section.styles?.backgroundColor || 'bg-white'} ${section.styles?.textColor || 'text-gray-900'}`}
+                                className={`p-4 rounded-lg ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-white')} ${section.styles?.textColor || 'text-gray-900'}`}
                                 style={{
-                                  background: section.styles?.backgroundColor?.includes('gradient') ? 
-                                    `linear-gradient(135deg, var(--tw-gradient-stops))` : undefined
+                                  background: section.styles?.backgroundColor?.includes('from-') ? 
+                                    `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` : undefined
                                 }}
                               >
                                 <h5 className={`${section.styles?.fontSize || 'text-4xl'} font-bold mb-2`}>

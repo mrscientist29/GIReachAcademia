@@ -24,6 +24,20 @@ export interface AuthenticatedRequest extends Express.Request {
 // JWT authentication middleware
 export const isAuthenticated: RequestHandler = (req: any, res, next) => {
   try {
+    // In development mode, bypass authentication for admin endpoints
+    if (process.env.NODE_ENV?.trim() === 'development') {
+      req.user = {
+        claims: {
+          sub: 'dev-user-123',
+          email: 'dev@example.com',
+          role: 'admin',
+          firstName: 'Dev',
+          lastName: 'User'
+        }
+      };
+      return next();
+    }
+
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {

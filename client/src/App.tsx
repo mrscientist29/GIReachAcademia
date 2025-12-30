@@ -7,16 +7,19 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { themeStore } from "@/lib/theme-store";
 import { globalSettingsStore } from "@/lib/settings-store";
 import { contentStore } from "@/lib/content-store";
+import { footerStore } from "@/lib/footer-store";
+import { analyticsStore } from "@/lib/analytics-store";
 import NavigationDynamic from "@/components/navigation-dynamic";
 import Footer from "@/components/footer";
+import FooterDynamic from "@/components/footer-dynamic";
 import WhatsAppFloat from "@/components/whatsapp-float";
 import HomeDynamic from "@/pages/home-dynamic";
-import About from "@/pages/about";
-import Programs from "@/pages/programs";
+import AboutDynamic from "@/pages/about-dynamic";
+import ProgramsDynamic from "@/pages/programs-dynamic";
+import PublicationsDynamic from "@/pages/publications-dynamic";
+import ResourcesDynamic from "@/pages/resources-dynamic";
+import ContactDynamic from "@/pages/contact-dynamic";
 import Projects from "@/pages/projects";
-import Publications from "@/pages/publications";
-import Resources from "@/pages/resources";
-import Contact from "@/pages/contact";
 import Join from "@/pages/join";
 import Webinars from "@/pages/webinars";
 import FeedbackPage from "@/pages/feedback";
@@ -33,6 +36,7 @@ import MenteeDashboard from "@/pages/mentee/dashboard";
 // Admin Components
 import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
+import AdminDashboardDynamic from "@/pages/admin/dashboard-dynamic";
 import PageEditorFunctional from "@/pages/admin/page-editor-functional";
 import MediaLibrary from "@/pages/admin/media-library";
 import AdminProjects from "@/pages/admin/projects";
@@ -53,14 +57,27 @@ function AdminRedirect() {
   return <div>Redirecting...</div>;
 }
 
+// Scroll restoration component
+function ScrollToTop() {
+  const [location] = useLocation();
+  
+  useEffect(() => {
+    // Scroll to top on route change
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+  return null;
+}
+
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#1e3a8a', color: '#ffffff' }}>
+      <ScrollToTop />
       <NavigationDynamic />
       <main className="flex-1 main-content" style={{ backgroundColor: '#1e3a8a', color: '#ffffff' }}>
         {children}
       </main>
-      <Footer />
+      <FooterDynamic />
     </div>
   );
 }
@@ -87,6 +104,22 @@ function App() {
         console.error('App: Failed to initialize content store:', error);
       }
       
+      // Initialize footer store
+      try {
+        await footerStore.initialize();
+        console.log('App: Footer store initialized');
+      } catch (error) {
+        console.error('App: Failed to initialize footer store:', error);
+      }
+      
+      // Initialize analytics store
+      try {
+        await analyticsStore.initialize();
+        console.log('App: Analytics store initialized');
+      } catch (error) {
+        console.error('App: Failed to initialize analytics store:', error);
+      }
+      
       // Initialize theme
       themeStore.initializeTheme();
       
@@ -107,6 +140,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ScrollToTop />
         <Switch>
           {/* Mentee Routes (no navigation/footer) */}
           <Route path="/mentee/dashboard" component={MenteeDashboard} />
@@ -129,12 +163,12 @@ function App() {
             <PublicLayout>
               <Switch>
                 <Route path="/" component={HomeDynamic} />
-                <Route path="/about" component={About} />
-                <Route path="/programs" component={Programs} />
+                <Route path="/about" component={AboutDynamic} />
+                <Route path="/programs" component={ProgramsDynamic} />
                 <Route path="/projects" component={Projects} />
-                <Route path="/publications" component={Publications} />
-                <Route path="/resources" component={Resources} />
-                <Route path="/contact" component={Contact} />
+                <Route path="/publications" component={PublicationsDynamic} />
+                <Route path="/resources" component={ResourcesDynamic} />
+                <Route path="/contact" component={ContactDynamic} />
                 <Route path="/join" component={Join} />
                 <Route path="/webinars" component={Webinars} />
                 <Route path="/feedback" component={FeedbackPage} />

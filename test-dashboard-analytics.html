@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analytics Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { background: #d1fae5; color: #065f46; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .error { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { background: #dbeafe; color: #1e40af; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .warning { background: #fef3c7; color: #92400e; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #2563eb; }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-item h4 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+        }
+        .feature-item ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .feature-item li {
+            margin: 5px 0;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Dashboard Analytics Testing</h1>
+    <p>This tool helps test the new dynamic dashboard with real analytics data.</p>
+
+    <div class="test-card">
+        <h2>🚀 Dashboard Data Test</h2>
+        <button class="btn" onclick="testDashboardData()">Test Dashboard APIs</button>
+        <button class="btn" onclick="simulateActivity()">Simulate User Activity</button>
+        <button class="btn" onclick="clearAnalyticsData()">Clear Analytics Data</button>
+        <div id="dashboardTestResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>📈 Real-Time Analytics Features</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4>📊 Real Statistics</h4>
+                <ul>
+                    <li>Total users from database</li>
+                    <li>Publications count</li>
+                    <li>Active programs</li>
+                    <li>Feedback submissions</li>
+                    <li>Media files uploaded</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>📱 Activity Tracking</h4>
+                <ul>
+                    <li>Page views and visits</li>
+                    <li>User registrations</li>
+                    <li>Content updates</li>
+                    <li>Media uploads</li>
+                    <li>Admin actions</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>🔄 System Monitoring</h4>
+                <ul>
+                    <li>Website status</li>
+                    <li>Storage usage</li>
+                    <li>Active sessions</li>
+                    <li>Last backup time</li>
+                    <li>Server uptime</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>📈 Growth Trends</h4>
+                <ul>
+                    <li>User growth percentage</li>
+                    <li>Publication trends</li>
+                    <li>Program enrollment</li>
+                    <li>Feedback trends</li>
+                    <li>Historical comparisons</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🧪 Manual Testing Steps</h2>
+        
+        <div class="info">
+            <h3>Step 1: Access Dynamic Dashboard</h3>
+            <p><strong>Action:</strong> Go to <a href="/admin/dashboard" target="_blank">Admin Dashboard</a></p>
+            <p><strong>Expected:</strong> Dashboard loads with real data instead of mock values</p>
+            <p><strong>Test:</strong> Verify statistics show actual counts from your database</p>
+        </div>
+
+        <div class="info">
+            <h3>Step 2: Test Real-Time Updates</h3>
+            <p><strong>Action:</strong> Click "Refresh Data" button on dashboard</p>
+            <p><strong>Expected:</strong> Data refreshes and shows current values</p>
+            <p><strong>Test:</strong> Make changes (edit pages, upload media) and refresh to see updates</p>
+        </div>
+
+        <div class="info">
+            <h3>Step 3: Verify Activity Tracking</h3>
+            <p><strong>Action:</strong> Navigate between admin pages and edit content</p>
+            <p><strong>Expected:</strong> Recent Activity section shows your actions</p>
+            <p><strong>Test:</strong> Edit a page, upload media, then check dashboard activity</p>
+        </div>
+
+        <div class="info">
+            <h3>Step 4: Check System Information</h3>
+            <p><strong>Action:</strong> Review System Overview section</p>
+            <p><strong>Expected:</strong> Shows real storage usage, active sessions, etc.</p>
+            <p><strong>Test:</strong> Verify storage bar reflects actual usage</p>
+        </div>
+
+        <div class="info">
+            <h3>Step 5: Test Analytics Integration</h3>
+            <p><strong>Action:</strong> Visit public pages, then check dashboard</p>
+            <p><strong>Expected:</strong> Page views and visitor counts increase</p>
+            <p><strong>Test:</strong> Open homepage, about page, then refresh dashboard</p>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>📊 Current Analytics Data</h2>
+        <div id="currentStats" class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-value" id="pageViews">Loading...</div>
+                <div class="stat-label">Page Views</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="uniqueVisitors">Loading...</div>
+                <div class="stat-label">Unique Visitors</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="activeSessions">Loading...</div>
+                <div class="stat-label">Active Sessions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="storageUsed">Loading...</div>
+                <div class="stat-label">Storage Used</div>
+            </div>
+        </div>
+        <button class="btn" onclick="loadCurrentStats()">Refresh Stats</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🎯 Expected Results</h2>
+        <div class="success">
+            <h3>After successful implementation:</h3>
+            <ul>
+                <li>✅ Dashboard shows real data instead of mock values</li>
+                <li>✅ Statistics reflect actual database counts</li>
+                <li>✅ Recent Activity shows real user actions</li>
+                <li>✅ System Overview displays actual system info</li>
+                <li>✅ Growth trends show percentage changes</li>
+                <li>✅ Page views and visitors are tracked</li>
+                <li>✅ Admin actions are logged and displayed</li>
+                <li>✅ Data refreshes in real-time</li>
+                <li>✅ Storage usage shows actual consumption</li>
+                <li>✅ All analytics persist across sessions</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 Troubleshooting</h2>
+        <div class="warning">
+            <h3>If Issues Occur:</h3>
+            <ul>
+                <li><strong>Dashboard still shows mock data:</strong> Check if dynamic dashboard is being used</li>
+                <li><strong>Statistics not updating:</strong> Verify API endpoints are accessible</li>
+                <li><strong>Activity not tracking:</strong> Check browser console for errors</li>
+                <li><strong>Storage calculation wrong:</strong> Clear localStorage and refresh</li>
+                <li><strong>Trends not showing:</strong> Generate some activity first</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>Debug Steps:</h3>
+            <ol>
+                <li>Check browser console (F12) for JavaScript errors</li>
+                <li>Verify network requests are successful</li>
+                <li>Test API endpoints directly in browser</li>
+                <li>Clear browser cache and localStorage</li>
+                <li>Check if analytics store is properly initialized</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function testDashboardData() {
+            const resultDiv = document.getElementById('dashboardTestResults');
+            resultDiv.innerHTML = '<div class="info">Testing dashboard data sources...</div>';
+            
+            const tests = [];
+            
+            // Test 1: Content API
+            try {
+                const response = await fetch('/api/content');
+                if (response.ok) {
+                    const data = await response.json();
+                    tests.push({
+                        name: 'Content API',
+                        status: 'success',
+                        message: `✅ Found ${data.length} content items`
+                    });
+                } else {
+                    tests.push({
+                        name: 'Content API',
+                        status: 'error',
+                        message: `❌ API returned ${response.status}`
+                    });
+                }
+            } catch (error) {
+                tests.push({
+                    name: 'Content API',
+                    status: 'error',
+                    message: `❌ API error: ${error.message}`
+                });
+            }
+            
+            // Test 2: Media API
+            try {
+                const response = await fetch('/api/admin/media');
+                tests.push({
+                    name: 'Media API',
+                    status: response.ok ? 'success' : 'warning',
+                    message: response.ok ? '✅ Media API accessible' : '⚠️ Media API not accessible'
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'Media API',
+                    status: 'warning',
+                    message: '⚠️ Media API test failed'
+                });
+            }
+            
+            // Test 3: Analytics Storage
+            const analyticsData = localStorage.getItem('gireach-analytics');
+            tests.push({
+                name: 'Analytics Storage',
+                status: analyticsData ? 'success' : 'info',
+                message: analyticsData ? '✅ Analytics data found in storage' : 'ℹ️ No analytics data yet'
+            });
+            
+            // Test 4: Activity Log
+            const activityData = localStorage.getItem('gireach-activity-log');
+            tests.push({
+                name: 'Activity Tracking',
+                status: activityData ? 'success' : 'info',
+                message: activityData ? '✅ Activity log found' : 'ℹ️ No activity logged yet'
+            });
+            
+            // Display results
+            const resultsHtml = tests.map(test => `
+                <div class="${test.status}">
+                    <strong>${test.name}:</strong> ${test.message}
+                </div>
+            `).join('');
+            
+            resultDiv.innerHTML = `
+                <div class="info">
+                    <h3>Dashboard Test Results</h3>
+                    ${resultsHtml}
+                </div>
+            `;
+        }
+        
+        function simulateActivity() {
+            // Simulate page views
+            const currentViews = localStorage.getItem('page-views') || '0';
+            localStorage.setItem('page-views', (parseInt(currentViews) + Math.floor(Math.random() * 10) + 5).toString());
+            
+            // Simulate unique visitors
+            const currentVisitors = localStorage.getItem('unique-visitors') || '0';
+            localStorage.setItem('unique-visitors', (parseInt(currentVisitors) + Math.floor(Math.random() * 3) + 1).toString());
+            
+            // Simulate activity log
+            const activities = JSON.parse(localStorage.getItem('gireach-activity-log') || '[]');
+            const newActivity = {
+                id: `test-${Date.now()}`,
+                action: 'Simulated user activity',
+                user: 'Test User',
+                timestamp: new Date().toISOString(),
+                type: 'system'
+            };
+            activities.unshift(newActivity);
+            localStorage.setItem('gireach-activity-log', JSON.stringify(activities.slice(0, 10)));
+            
+            alert('✅ Simulated user activity added! Refresh the dashboard to see changes.');
+        }
+        
+        function clearAnalyticsData() {
+            if (confirm('Are you sure you want to clear all analytics data? This will reset all statistics.')) {
+                localStorage.removeItem('gireach-analytics');
+                localStorage.removeItem('gireach-activity-log');
+                localStorage.removeItem('page-views');
+                localStorage.removeItem('unique-visitors');
+                sessionStorage.clear();
+                
+                alert('✅ Analytics data cleared! Dashboard will show fresh data.');
+            }
+        }
+        
+        function loadCurrentStats() {
+            const pageViews = localStorage.getItem('page-views') || '0';
+            const uniqueVisitors = localStorage.getItem('unique-visitors') || '0';
+            const activeSessions = sessionStorage.getItem('active-sessions') || '1';
+            
+            // Calculate storage usage
+            let storageSize = 0;
+            for (let key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                    storageSize += localStorage[key].length;
+                }
+            }
+            const storageMB = (storageSize / 1024 / 1024).toFixed(2);
+            
+            document.getElementById('pageViews').textContent = parseInt(pageViews).toLocaleString();
+            document.getElementById('uniqueVisitors').textContent = parseInt(uniqueVisitors).toLocaleString();
+            document.getElementById('activeSessions').textContent = activeSessions;
+            document.getElementById('storageUsed').textContent = storageMB + ' MB';
+        }
+        
+        // Auto-load stats on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testDashboardData();
+                loadCurrentStats();
+            }, 1000);
+        });
+        
+        // Refresh stats every 30 seconds
+        setInterval(loadCurrentStats, 30000);
+    </script>
+</body>
+</html>

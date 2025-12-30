@@ -656,6 +656,33 @@ class ContentStore {
     }
   }
 
+  // Add cache invalidation method
+  invalidateCache(pageId?: string): void {
+    if (pageId) {
+      delete this.cachedContent[pageId];
+      console.log(`ContentStore: Invalidated cache for ${pageId}`);
+    } else {
+      this.cachedContent = {};
+      console.log('ContentStore: Invalidated all cache');
+    }
+    
+    // Clear localStorage cache
+    try {
+      if (pageId) {
+        const stored = localStorage.getItem(this.storageKey);
+        if (stored) {
+          const content = JSON.parse(stored);
+          delete content[pageId];
+          localStorage.setItem(this.storageKey, JSON.stringify(content));
+        }
+      } else {
+        localStorage.removeItem(this.storageKey);
+      }
+    } catch (error) {
+      console.warn('ContentStore: Failed to clear localStorage cache:', error);
+    }
+  }
+
   async savePageContent(pageId: string, content: PageContent): Promise<void> {
     // Prevent recursive calls
     if (this.savingPages.has(pageId)) {
@@ -673,7 +700,10 @@ class ContentStore {
       
       console.log(`ContentStore: Successfully saved ${pageId} to database`);
       
-      // Update cache
+      // Invalidate cache to ensure fresh data
+      this.invalidateCache(pageId);
+      
+      // Update cache with new content
       this.cachedContent[pageId] = content;
       
       // Cache to localStorage as backup

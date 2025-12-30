@@ -1,6 +1,6 @@
 [
   {
-    "id": "file-1765996299104",
+    "id": "file-1767110520480",
     "settingKey": "logo",
     "settingValue": {
       "type": "image",
@@ -21,7 +21,111 @@
     },
     "isActive": true,
     "updatedById": null,
-    "createdAt": "2025-12-17T18:31:39.104Z",
-    "updatedAt": "2025-12-17T18:31:39.104Z"
+    "createdAt": "2025-12-30T16:02:00.480Z",
+    "updatedAt": "2025-12-30T16:02:00.480Z"
+  },
+  {
+    "id": "file-1766954668286",
+    "settingKey": "footer",
+    "settingValue": {
+      "description": "Advancing medical research in Pakistan through collaborative excellence, mentorship, and innovative gastroenterology studies.sdfasd",
+      "socialLinks": [
+        {
+          "id": "linkedin",
+          "name": "LinkedIn",
+          "url": "https://linkedin.com/company/gireach",
+          "icon": "Linkedin",
+          "color": "from-blue-600 to-blue-700",
+          "enabled": true
+        },
+        {
+          "id": "twitter",
+          "name": "Twitter",
+          "url": "https://twitter.com/gireach",
+          "icon": "Twitter",
+          "color": "from-sky-500 to-sky-600",
+          "enabled": true
+        },
+        {
+          "id": "facebook",
+          "name": "Facebook",
+          "url": "https://facebook.com/gireach",
+          "icon": "Facebook",
+          "color": "from-blue-700 to-blue-800",
+          "enabled": true
+        },
+        {
+          "id": "instagram",
+          "name": "Instagram",
+          "url": "https://instagram.com/gireach",
+          "icon": "Instagram",
+          "color": "from-pink-500 to-purple-600",
+          "enabled": true
+        },
+        {
+          "id": "youtube",
+          "name": "YouTube",
+          "url": "https://youtube.com/@gireach",
+          "icon": "Youtube",
+          "color": "from-red-500 to-red-600",
+          "enabled": true
+        }
+      ],
+      "quickLinksTitle": "Quick Links",
+      "quickLinks": [
+        {
+          "id": "home",
+          "label": "Home",
+          "url": "/",
+          "enabled": true
+        },
+        {
+          "id": "about",
+          "label": "About Us",
+          "url": "/about",
+          "enabled": true
+        },
+        {
+          "id": "programs",
+          "label": "Programs",
+          "url": "/programs",
+          "enabled": true
+        },
+        {
+          "id": "publications",
+          "label": "Publications",
+          "url": "/publications",
+          "enabled": true
+        },
+        {
+          "id": "resources",
+          "label": "Resources",
+          "url": "/resources",
+          "enabled": true
+        },
+        {
+          "id": "contact",
+          "label": "Contact",
+          "url": "/contact",
+          "enabled": true
+        }
+      ],
+      "contactTitle": "Contact Info",
+      "contactInfo": {
+        "email": "info@gireach.pk",
+        "phone": "+92 (21) 1234-5678",
+        "address": "London,UK"
+      },
+      "copyrightText": "© 2024 GI REACH. All rights reserveddfa",
+      "privacyPolicyUrl": "/privacy",
+      "termsOfServiceUrl": "/terms",
+      "backgroundColor": "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+      "textColor": "text-white",
+      "accentColor": "text-cyan-400"
+    },
+    "isActive": true,
+    "updatedById": null,
+    "createdAt": "2025-12-28T20:44:28.286Z",
+    "updatedAt": "2025-12-28T20:44:28.286Z"
   }
 ]

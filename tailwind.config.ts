@@ -3,6 +3,28 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  safelist: [
+    // Background colors
+    'bg-white', 'bg-gray-50', 'bg-gray-100', 'bg-blue-50', 'bg-blue-600', 
+    'bg-green-50', 'bg-green-600', 'bg-purple-50', 'bg-purple-600',
+    'bg-red-50', 'bg-red-600', 'bg-yellow-50', 'bg-yellow-600',
+    'bg-indigo-50', 'bg-indigo-600',
+    // Text colors
+    'text-gray-900', 'text-gray-700', 'text-gray-600', 'text-white',
+    'text-blue-600', 'text-blue-800', 'text-green-600', 'text-green-800',
+    'text-purple-600', 'text-red-600',
+    // Font sizes
+    'text-sm', 'text-base', 'text-lg', 'text-xl', 'text-2xl', 'text-3xl',
+    'text-4xl', 'text-5xl', 'text-6xl', 'text-4xl lg:text-6xl',
+    // Padding
+    'py-4', 'py-8', 'py-12', 'py-16', 'py-20', 'py-24', 'py-32',
+    'py-20 lg:py-32',
+    // Gradient classes (for fallback)
+    'from-blue-50', 'to-indigo-100', 'from-green-50', 'to-emerald-100',
+    'from-purple-50', 'to-pink-100', 'from-orange-50', 'to-red-100',
+    'from-indigo-50', 'to-purple-100', 'from-green-50', 'to-teal-100',
+    'from-blue-50', 'to-cyan-100', 'bg-gradient-to-r'
+  ],
   theme: {
     extend: {
       borderRadius: {

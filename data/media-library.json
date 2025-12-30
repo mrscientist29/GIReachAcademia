@@ -1,0 +1,28 @@
+[
+  {
+    "id": "media-1766947161534-4yau4n4bhmt",
+    "fileName": "1766947161291-f4plkz90cxb.jpeg",
+    "originalName": "link.jpg",
+    "fileType": "image",
+    "mimeType": "image/jpeg",
+    "fileSize": 59258,
+    "fileUrl": "/uploads/images/1766947161291-f4plkz90cxb.jpeg",
+    "altText": "",
+    "description": "",
+    "uploadedById": "dev-user-123",
+    "createdAt": "2025-12-28T18:39:21.534Z"
+  },
+  {
+    "id": "media-1766949379736-j5uofkwkxn",
+    "fileName": "1766949379575-6qz2p8l65a7.jpeg",
+    "originalName": "image2-1024x509.webp",
+    "fileType": "image",
+    "mimeType": "image/webp",
+    "fileSize": 30006,
+    "fileUrl": "/uploads/images/1766949379575-6qz2p8l65a7.jpeg",
+    "altText": "",
+    "description": "",
+    "uploadedById": "dev-user-123",
+    "createdAt": "2025-12-28T19:16:19.736Z"
+  }
+]

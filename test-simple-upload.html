@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Upload Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Simple Image Upload Test</h1>
+    
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="uploadImage()">Upload Image</button>
+    
+    <div id="result"></div>
+    <div id="mediaLibrary"></div>
+
+    <script>
+        async function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('altText', 'Test image');
+            formData.append('description', 'Test upload');
+
+            try {
+                const response = await fetch('/api/admin/media', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('result').innerHTML = `
+                        <div class="success">
+                            <h3>Upload Successful!</h3>
+                            <p><strong>File:</strong> ${result.originalName}</p>
+                            <p><strong>URL:</strong> <a href="${result.fileUrl}" target="_blank">${result.fileUrl}</a></p>
+                            <p><strong>ID:</strong> ${result.id}</p>
+                        </div>
+                    `;
+                    loadMediaLibrary();
+                } else {
+                    throw new Error(result.message || 'Upload failed');
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <div class="error">
+                        <h3>Upload Failed</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadMediaLibrary() {
+            try {
+                const response = await fetch('/api/admin/media');
+                const media = await response.json();
+                
+                const html = media.map(item => `
+                    <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0;">
+                        <h4>${item.originalName}</h4>
+                        <p>URL: <a href="${item.fileUrl}" target="_blank">${item.fileUrl}</a></p>
+                        <p>Size: ${item.fileSize} bytes</p>
+                        <p>Created: ${new Date(item.createdAt).toLocaleString()}</p>
+                        ${item.fileType === 'image' ? `<img src="${item.fileUrl}" style="max-width: 200px;">` : ''}
+                    </div>
+                `).join('');
+
+                document.getElementById('mediaLibrary').innerHTML = `
+                    <h2>Media Library (${media.length} items)</h2>
+                    ${html || '<p>No media items found</p>'}
+                `;
+            } catch (error) {
+                document.getElementById('mediaLibrary').innerHTML = `
+                    <div class="error">Failed to load media library: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Load media library on page load
+        loadMediaLibrary();
+    </script>
+</body>
+</html>

@@ -11,6 +11,21 @@ import { apiRequest } from "@/lib/queryClient";
 import type { Testimonial } from "@shared/schema";
 import { contentStore, type PageContent, type ContentSection } from "@/lib/content-store";
 
+// Helper function to convert Tailwind gradient classes to CSS gradients
+const getGradientColors = (gradientClass: string): string => {
+  const gradientMap: Record<string, string> = {
+    'from-blue-50 to-indigo-100': '#eff6ff, #e0e7ff',
+    'from-green-50 to-emerald-100': '#f0fdf4, #dcfce7',
+    'from-purple-50 to-pink-100': '#faf5ff, #fce7f3',
+    'from-orange-50 to-red-100': '#fff7ed, #fee2e2',
+    'from-indigo-50 to-purple-100': '#eef2ff, #e9d5ff',
+    'from-green-50 to-teal-100': '#f0fdf4, #ccfbf1',
+    'from-blue-50 to-cyan-100': '#eff6ff, #cffafe',
+  };
+  
+  return gradientMap[gradientClass] || '#eff6ff, #e0e7ff';
+};
+
 // Icon mapping for services
 const iconMap = {
   GraduationCap,
@@ -113,10 +128,16 @@ export default function HomeDynamic() {
         return (
           <section 
             key={section.id}
-            className={`relative bg-gradient-to-r ${section.styles?.backgroundColor || 'from-blue-50 to-indigo-100'} py-20 lg:py-32`}
+            className={`relative ${section.styles?.padding || 'py-20 lg:py-32'}`}
+            style={{
+              background: section.styles?.backgroundColor?.includes('from-') 
+                ? `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` 
+                : undefined
+            }}
             data-testid="hero-section"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`absolute inset-0 ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-gradient-to-r from-blue-50 to-indigo-100')}`}></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h1 
@@ -167,10 +188,16 @@ export default function HomeDynamic() {
         return (
           <section 
             key={section.id}
-            className={`py-20 ${section.styles?.backgroundColor || 'bg-white'}`}
+            className={`relative ${section.styles?.padding || 'py-20'}`}
+            style={{
+              background: section.styles?.backgroundColor?.includes('from-') 
+                ? `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` 
+                : undefined
+            }}
             data-testid="about-section"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`absolute inset-0 ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-white')}`}></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid lg:grid-cols-2 gap-16 items-center">
                 <div>
                   <h2 className={`text-4xl font-bold ${section.styles?.textColor || 'text-gray-900'} mb-6`}>
@@ -222,10 +249,16 @@ export default function HomeDynamic() {
         return (
           <section 
             key={section.id}
-            className={`py-20 ${section.styles?.backgroundColor || 'bg-gray-50'}`}
+            className={`relative ${section.styles?.padding || 'py-20'}`}
+            style={{
+              background: section.styles?.backgroundColor?.includes('from-') 
+                ? `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` 
+                : undefined
+            }}
             data-testid="services-section"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`absolute inset-0 ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-gray-50')}`}></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
                 <h2 className={`text-4xl font-bold ${section.styles?.textColor || 'text-gray-900'} mb-4`}>
                   {section.title}
@@ -260,10 +293,16 @@ export default function HomeDynamic() {
         return (
           <section 
             key={section.id}
-            className={`py-20 ${section.styles?.backgroundColor || 'bg-blue-600'}`}
+            className={`relative ${section.styles?.padding || 'py-20'}`}
+            style={{
+              background: section.styles?.backgroundColor?.includes('from-') 
+                ? `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` 
+                : undefined
+            }}
             data-testid="stats-section"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`absolute inset-0 ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-blue-600')}`}></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
                 <h2 className={`text-4xl font-bold ${section.styles?.textColor || 'text-white'} mb-4`}>
                   {section.title}
@@ -288,10 +327,16 @@ export default function HomeDynamic() {
         return (
           <section 
             key={section.id}
-            className={`py-20 ${section.styles?.backgroundColor || 'bg-white'}`}
+            className={`relative ${section.styles?.padding || 'py-20'}`}
+            style={{
+              background: section.styles?.backgroundColor?.includes('from-') 
+                ? `linear-gradient(135deg, ${getGradientColors(section.styles.backgroundColor)})` 
+                : undefined
+            }}
             data-testid="contact-section"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`absolute inset-0 ${section.styles?.backgroundColor?.includes('from-') ? '' : (section.styles?.backgroundColor || 'bg-white')}`}></div>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid lg:grid-cols-2 gap-16">
                 <div>
                   <h2 className={`text-4xl font-bold ${section.styles?.textColor || 'text-gray-900'} mb-6`}>

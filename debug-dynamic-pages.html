@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dynamic Pages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f9fafb;
+        }
+        .result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        .info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        pre {
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Dynamic Pages</h1>
+    <p>This page helps debug why changes from the dashboard aren't showing on the website.</p>
+
+    <div class="test-section">
+        <h2>📄 Page Content API Test</h2>
+        <p>Testing if the API returns content for each page:</p>
+        <button class="test-button" onclick="testAllPageAPIs()">Test All Page APIs</button>
+        <div id="apiResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 Page Routing Test</h2>
+        <p>Testing if the correct components are loaded for each route:</p>
+        <div>
+            <a href="/" target="_blank">🏠 Home (should be dynamic)</a><br>
+            <a href="/about" target="_blank">ℹ️ About (should be dynamic)</a><br>
+            <a href="/programs" target="_blank">📚 Programs (should be dynamic)</a><br>
+            <a href="/publications" target="_blank">📖 Publications (should be dynamic)</a><br>
+            <a href="/resources" target="_blank">📋 Resources (should be dynamic)</a><br>
+            <a href="/contact" target="_blank">📞 Contact (should be dynamic)</a><br>
+        </div>
+        <p><strong>Instructions:</strong> Open each link and check if the content matches what you edited in the dashboard.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Page Editor Test</h2>
+        <p>Testing if the page editor can load and save content for all pages:</p>
+        <button class="test-button" onclick="testPageEditor()">Test Page Editor</button>
+        <div id="editorResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>💾 Database Content Check</h2>
+        <p>Checking what content is actually stored in the database:</p>
+        <button class="test-button" onclick="checkDatabaseContent()">Check Database</button>
+        <div id="dbResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚨 Common Issues & Solutions</h2>
+        <div class="info">
+            <h3>Possible Issues:</h3>
+            <ul>
+                <li><strong>Browser Cache:</strong> Try hard refresh (Ctrl+F5) or open in incognito mode</li>
+                <li><strong>Static vs Dynamic:</strong> Website might be loading static pages instead of dynamic ones</li>
+                <li><strong>Content Not Saved:</strong> Changes might not be saving to the database</li>
+                <li><strong>API Issues:</strong> Content API might not be returning updated data</li>
+                <li><strong>Page Editor Issues:</strong> Page editor might only be editing homepage</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function testAllPageAPIs() {
+            const resultDiv = document.getElementById('apiResults');
+            resultDiv.innerHTML = '<div class="info">Testing page APIs...</div>';
+
+            const pages = ['home', 'about', 'programs', 'publications', 'resources', 'contact', 'join'];
+            const results = [];
+
+            for (const pageId of pages) {
+                try {
+                    const response = await fetch(`/api/content/${pageId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const sectionsCount = data.sections ? data.sections.length : 0;
+                        results.push(`✅ ${pageId}: ${sectionsCount} sections, ${JSON.stringify(data).length} bytes`);
+                    } else {
+                        results.push(`❌ ${pageId}: HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    results.push(`❌ ${pageId}: ${error.message}`);
+                }
+            }
+
+            resultDiv.innerHTML = `
+                <div class="success">
+                    <h3>API Test Results:</h3>
+                    ${results.map(r => `<div>${r}</div>`).join('')}
+                </div>
+            `;
+        }
+
+        async function testPageEditor() {
+            const resultDiv = document.getElementById('editorResults');
+            resultDiv.innerHTML = '<div class="info">Testing page editor functionality...</div>';
+
+            try {
+                // Test if we can access the page editor
+                const editorUrl = '/admin/page-editor';
+                resultDiv.innerHTML = `
+                    <div class="info">
+                        <h3>Page Editor Test:</h3>
+                        <p>✅ Page editor should be accessible at: <a href="${editorUrl}" target="_blank">${editorUrl}</a></p>
+                        <p>📝 Try editing different pages and check if they save correctly</p>
+                        <p>🔄 After saving, refresh this page and run the API test to see if changes persist</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Page editor test failed: ${error.message}</div>`;
+            }
+        }
+
+        async function checkDatabaseContent() {
+            const resultDiv = document.getElementById('dbResults');
+            resultDiv.innerHTML = '<div class="info">Checking database content...</div>';
+
+            try {
+                // Get all content
+                const response = await fetch('/api/content');
+                if (response.ok) {
+                    const allContent = await response.json();
+                    
+                    const contentSummary = allContent.map(page => {
+                        const sectionsCount = page.sections ? page.sections.length : 0;
+                        const lastUpdated = page.updatedAt ? new Date(page.updatedAt).toLocaleString() : 'Unknown';
+                        return `
+                            <div style="border: 1px solid #d1d5db; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                                <strong>${page.pageName} (${page.pageId})</strong><br>
+                                Sections: ${sectionsCount}<br>
+                                Last Updated: ${lastUpdated}<br>
+                                Size: ${JSON.stringify(page).length} bytes
+                            </div>
+                        `;
+                    }).join('');
+
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>Database Content (${allContent.length} pages):</h3>
+                            ${contentSummary}
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Database check failed: ${error.message}</div>`;
+            }
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testAllPageAPIs();
+                checkDatabaseContent();
+            }, 1000);
+        });
+
+        // Add instructions for manual testing
+        function addManualTestInstructions() {
+            const instructions = document.createElement('div');
+            instructions.className = 'test-section';
+            instructions.innerHTML = `
+                <h2>📋 Manual Testing Steps</h2>
+                <div class="info">
+                    <h3>Step 1: Test Page Editor</h3>
+                    <ol>
+                        <li>Go to <a href="/admin/page-editor" target="_blank">Admin → Page Editor</a></li>
+                        <li>Select "About Us" from the page dropdown</li>
+                        <li>Edit the title or content</li>
+                        <li>Click "Save"</li>
+                        <li>Go to <a href="/about" target="_blank">/about</a> page</li>
+                        <li>Check if your changes appear</li>
+                    </ol>
+
+                    <h3>Step 2: Test Other Pages</h3>
+                    <ol>
+                        <li>Repeat step 1 for Programs, Publications, Resources, Contact</li>
+                        <li>Make sure each page shows your edits</li>
+                    </ol>
+
+                    <h3>Step 3: Check Browser Console</h3>
+                    <ol>
+                        <li>Press F12 to open developer tools</li>
+                        <li>Go to Console tab</li>
+                        <li>Look for any error messages</li>
+                        <li>Check if content is loading properly</li>
+                    </ol>
+                </div>
+            `;
+            document.body.appendChild(instructions);
+        }
+
+        // Add manual test instructions
+        addManualTestInstructions();
+    </script>
+</body>
+</html>

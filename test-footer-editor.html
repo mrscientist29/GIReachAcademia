@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Editor Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { background: #d1fae5; color: #065f46; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .error { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { background: #dbeafe; color: #1e40af; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .warning { background: #fef3c7; color: #92400e; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #2563eb; }
+        .step {
+            border-left: 4px solid #3b82f6;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-item h4 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+        }
+        .feature-item ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .feature-item li {
+            margin: 5px 0;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <h1>🦶 Footer Editor Testing Guide</h1>
+    <p>This guide helps you test the new fully editable footer functionality.</p>
+
+    <div class="test-card">
+        <h2>🚀 Quick Footer Test</h2>
+        <button class="btn" onclick="runFooterTests()">Test Footer API</button>
+        <div id="footerTestResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>✨ New Footer Features</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4>📝 Content Editing</h4>
+                <ul>
+                    <li>Edit footer description</li>
+                    <li>Customize section titles</li>
+                    <li>Update copyright text</li>
+                    <li>Modify contact information</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>🔗 Social Media Management</h4>
+                <ul>
+                    <li>Add/remove social links</li>
+                    <li>Edit URLs and names</li>
+                    <li>Choose icons and colors</li>
+                    <li>Enable/disable links</li>
+                    <li>YouTube icon included!</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>🧭 Quick Links</h4>
+                <ul>
+                    <li>Add custom navigation links</li>
+                    <li>Edit link labels and URLs</li>
+                    <li>Enable/disable links</li>
+                    <li>Reorder links</li>
+                </ul>
+            </div>
+            <div class="feature-item">
+                <h4>📞 Contact Information</h4>
+                <ul>
+                    <li>Update email address</li>
+                    <li>Change phone number</li>
+                    <li>Modify address</li>
+                    <li>All changes sync globally</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>📋 Manual Testing Steps</h2>
+        
+        <div class="info">
+            <h3>Step 1: Access Footer Editor</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Go to <a href="/admin/page-editor" target="_blank">Admin → Page Editor</a></p>
+                <p><strong>Expected:</strong> Page editor loads with page selector on the left</p>
+                <p><strong>Test:</strong> Click on "Footer Settings" in the page selector</p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 2: Test Content Editing</h3>
+            <div class="step">
+                <p><strong>Action:</strong> In the "Content" tab, edit the footer description</p>
+                <p><strong>Expected:</strong> Text area allows editing</p>
+                <p><strong>Test:</strong> Change description and save</p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 3: Test Social Media Links</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Go to "Social Media" tab</p>
+                <p><strong>Expected:</strong> See existing social links with edit options</p>
+                <p><strong>Test:</strong> 
+                    <br>• Edit a YouTube link URL
+                    <br>• Add a new social media platform
+                    <br>• Change icon colors
+                    <br>• Toggle enable/disable switches
+                </p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 4: Test Quick Links</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Go to "Quick Links" tab</p>
+                <p><strong>Expected:</strong> See navigation links with edit options</p>
+                <p><strong>Test:</strong>
+                    <br>• Edit existing link labels
+                    <br>• Add a new custom link
+                    <br>• Change URLs
+                    <br>• Disable some links
+                </p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 5: Test Contact Information</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Go to "Contact Info" tab</p>
+                <p><strong>Expected:</strong> See contact fields</p>
+                <p><strong>Test:</strong>
+                    <br>• Update email address
+                    <br>• Change phone number
+                    <br>• Modify address
+                </p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 6: Save and Verify Changes</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Click "Save Changes" button</p>
+                <p><strong>Expected:</strong> Success message appears</p>
+                <p><strong>Test:</strong> Check footer on multiple pages to verify changes appear globally</p>
+            </div>
+        </div>
+
+        <div class="info">
+            <h3>Step 7: Test Global Application</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Visit different pages on the website</p>
+                <p><strong>Expected:</strong> Footer changes appear on all pages</p>
+                <p><strong>Test:</strong> Check:
+                    <br>• <a href="/" target="_blank">Homepage</a>
+                    <br>• <a href="/about" target="_blank">About Page</a>
+                    <br>• <a href="/contact" target="_blank">Contact Page</a>
+                    <br>• <a href="/programs" target="_blank">Programs Page</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🎯 Expected Results</h2>
+        <div class="success">
+            <h3>After successful implementation, you should see:</h3>
+            <ul>
+                <li>✅ Footer Settings option in page editor sidebar</li>
+                <li>✅ Tabbed interface with Content, Social Media, Quick Links, Contact Info</li>
+                <li>✅ All footer content is editable</li>
+                <li>✅ Social media links include YouTube icon</li>
+                <li>✅ Changes save to database and persist across refreshes</li>
+                <li>✅ Footer updates appear on all pages immediately</li>
+                <li>✅ Changes are visible across all devices</li>
+                <li>✅ No existing functionality is broken</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 Troubleshooting</h2>
+        <div class="warning">
+            <h3>If Issues Occur:</h3>
+            <ul>
+                <li><strong>Footer Settings not visible:</strong> Check if FooterEditor is properly imported</li>
+                <li><strong>Changes not saving:</strong> Check browser console for API errors</li>
+                <li><strong>Footer not updating:</strong> Try hard refresh (Ctrl+F5) or incognito mode</li>
+                <li><strong>Social icons missing:</strong> Verify icon imports in footer-dynamic.tsx</li>
+                <li><strong>Database errors:</strong> Check server logs for storage issues</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>Debug Steps:</h3>
+            <ol>
+                <li>Check browser console (F12) for JavaScript errors</li>
+                <li>Verify network requests are successful (Network tab)</li>
+                <li>Test in incognito mode to rule out caching</li>
+                <li>Check if footer store is properly initialized</li>
+                <li>Verify global settings API is working</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function runFooterTests() {
+            const resultDiv = document.getElementById('footerTestResults');
+            resultDiv.innerHTML = '<div class="info">Running footer functionality tests...</div>';
+            
+            const tests = [];
+            
+            // Test 1: Footer Settings API
+            try {
+                // Check if we can access footer settings (this would be via global settings)
+                const response = await fetch('/api/admin/settings');
+                tests.push({
+                    name: 'Settings API Access',
+                    status: response.ok ? 'success' : 'warning',
+                    message: response.ok ? '✅ Settings API accessible' : '⚠️ Check settings API manually'
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'Settings API Access',
+                    status: 'warning',
+                    message: '⚠️ Test settings API manually'
+                });
+            }
+            
+            // Test 2: Page Editor Access
+            try {
+                const editorResponse = await fetch('/admin/page-editor');
+                tests.push({
+                    name: 'Page Editor Access',
+                    status: editorResponse.ok ? 'success' : 'warning',
+                    message: editorResponse.ok ? '✅ Page editor accessible' : '⚠️ Check page editor manually'
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'Page Editor Access',
+                    status: 'warning',
+                    message: '⚠️ Check page editor manually'
+                });
+            }
+            
+            // Test 3: Footer Component Check
+            tests.push({
+                name: 'Footer Component',
+                status: 'info',
+                message: 'ℹ️ Check if FooterDynamic component is loading on pages'
+            });
+            
+            // Display results
+            const resultsHtml = tests.map(test => `
+                <div class="${test.status}">
+                    <strong>${test.name}:</strong> ${test.message}
+                </div>
+            `).join('');
+            
+            resultDiv.innerHTML = `
+                <div class="info">
+                    <h3>Footer Test Results</h3>
+                    ${resultsHtml}
+                    <div style="margin-top: 15px;">
+                        <strong>Next Step:</strong> Follow the manual testing steps above to verify full functionality.
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Auto-run basic tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(runFooterTests, 1000);
+        });
+    </script>
+</body>
+</html>

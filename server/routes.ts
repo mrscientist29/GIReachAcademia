@@ -1,7 +1,10 @@
 import type { Express, Request } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated, type AuthenticatedRequest } from "./auth";
+import { upload, processImage, generateThumbnail } from "./middleware/upload";
+import path from "path";
 import { 
   insertContactSubmissionSchema,
   insertJoinApplicationSchema,
@@ -816,6 +819,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Serve uploaded images
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
+  // Bulk upload endpoint
+  app.post("/api/admin/media/bulk", isAuthenticated, upload.array('files', 10), async (req: AuthenticatedRequest, res) => {
+    try {
+      if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+        return res.status(400).json({ message: "No files uploaded" });
+      }
+
+      const uploadedMedia = [];
+      
+      for (const file of req.files) {
+        try {
+          // Process each image
+          const processedImage = await processImage(file.buffer, file.originalname, {
+            width: 1920,
+            height: 1080,
+            quality: 85,
+            format: 'jpeg'
+          });
+
+          // Generate thumbnail
+          const thumbnail = await generateThumbnail(file.buffer, file.originalname);
+
+          // Prepare data for database
+          const mediaData = {
+            fileName: processedImage.filename,
+            originalName: file.originalname,
+            fileType: 'image',
+            mimeType: file.mimetype,
+            fileSize: processedImage.size,
+            fileUrl: processedImage.url,
+            altText: '',
+            description: '',
+            uploadedById: req.user?.claims?.sub
+          };
+
+          // Validate and save to database
+          const validatedData = insertMediaLibrarySchema.parse(mediaData);
+          const media = await storage.uploadMedia(validatedData);
+          
+          uploadedMedia.push({
+            ...media,
+            thumbnailUrl: thumbnail.url,
+            dimensions: processedImage.dimensions
+          });
+        } catch (fileError) {
+          console.error(`Error processing file ${file.originalname}:`, fileError);
+          // Continue with other files
+        }
+      }
+
+      res.status(201).json({
+        message: `Successfully uploaded ${uploadedMedia.length} of ${req.files.length} files`,
+        media: uploadedMedia
+      });
+    } catch (error) {
+      console.error('Bulk upload error:', error);
+      res.status(400).json({ 
+        message: "Failed to upload media files",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   app.get("/api/admin/media/:id", isAuthenticated, async (req: AuthenticatedRequest, res) => {
     try {
       const media = await storage.getMediaItem(req.params.id);
@@ -828,17 +897,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/media", isAuthenticated, async (req: AuthenticatedRequest, res) => {
+  app.post("/api/admin/media", isAuthenticated, upload.single('file'), async (req: AuthenticatedRequest, res) => {
     try {
-      const validatedData = insertMediaLibrarySchema.parse({
-        ...req.body,
-        uploadedById: req.user?.claims?.sub
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      // Process the uploaded image
+      const processedImage = await processImage(req.file.buffer, req.file.originalname, {
+        width: 1920,
+        height: 1080,
+        quality: 85,
+        format: 'jpeg'
       });
+
+      // Generate thumbnail
+      const thumbnail = await generateThumbnail(req.file.buffer, req.file.originalname);
+
+      // Prepare data for database
+      const mediaData = {
+        fileName: processedImage.filename,
+        originalName: req.file.originalname,
+        fileType: 'image',
+        mimeType: req.file.mimetype,
+        fileSize: processedImage.size,
+        fileUrl: processedImage.url,
+        altText: req.body.altText || '',
+        description: req.body.description || '',
+        uploadedById: req.user?.claims?.sub
+      };
+
+      // Validate and save to database
+      const validatedData = insertMediaLibrarySchema.parse(mediaData);
       const media = await storage.uploadMedia(validatedData);
-      res.status(201).json(media);
+      
+      // Return the media item with additional metadata
+      res.status(201).json({
+        ...media,
+        thumbnailUrl: thumbnail.url,
+        dimensions: processedImage.dimensions
+      });
     } catch (error) {
+      console.error('Media upload error:', error);
       res.status(400).json({ 
-        message: "Invalid media data",
+        message: "Failed to upload media",
         error: error instanceof Error ? error.message : "Unknown error"
       });
     }

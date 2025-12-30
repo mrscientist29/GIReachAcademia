@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Editor Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { background: #d1fae5; color: #065f46; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .error { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { background: #dbeafe; color: #1e40af; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .warning { background: #fef3c7; color: #92400e; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #2563eb; }
+        .step {
+            border-left: 4px solid #3b82f6;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Page Editor Fix Verification</h1>
+    <p>This tool helps verify that the page editor fixes are working correctly.</p>
+
+    <div class="test-card">
+        <h2>🚀 Quick Fix Verification</h2>
+        <button class="btn" onclick="runFixVerification()">Verify Fixes</button>
+        <div id="verificationResults"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>📋 Manual Testing Steps</h2>
+        <div class="info">
+            <h3>Step 1: Test Page Editor Navigation</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Go to <a href="/admin/page-editor" target="_blank">Page Editor</a></p>
+                <p><strong>Expected:</strong> Page editor loads with page selector on the left</p>
+                <p><strong>Test:</strong> Click on different pages (About, Programs, etc.) and verify content changes</p>
+            </div>
+
+            <h3>Step 2: Test Content Editing</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Select "About Us" page and edit the title</p>
+                <p><strong>Expected:</strong> Content loads and you can edit it</p>
+                <p><strong>Test:</strong> Change title from "About GI REACH" to "About GI REACH - EDITED"</p>
+            </div>
+
+            <h3>Step 3: Test Content Saving</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Click "Save Changes" button</p>
+                <p><strong>Expected:</strong> Success message appears</p>
+                <p><strong>Test:</strong> Check browser console for save confirmation logs</p>
+            </div>
+
+            <h3>Step 4: Test Live Website</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Open <a href="/about" target="_blank">About Page</a> in new tab</p>
+                <p><strong>Expected:</strong> Your edited title appears on the live website</p>
+                <p><strong>Test:</strong> Refresh the page to ensure changes persist</p>
+            </div>
+
+            <h3>Step 5: Test Other Pages</h3>
+            <div class="step">
+                <p><strong>Action:</strong> Repeat steps 2-4 for Programs, Contact, etc.</p>
+                <p><strong>Expected:</strong> All pages can be edited and changes appear live</p>
+                <p><strong>Test:</strong> Verify each page shows your edits</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔍 Troubleshooting</h2>
+        <div class="warning">
+            <h3>If Issues Persist:</h3>
+            <ul>
+                <li><strong>Clear Browser Cache:</strong> Hard refresh (Ctrl+F5) or use incognito mode</li>
+                <li><strong>Check Console:</strong> Press F12 and look for JavaScript errors</li>
+                <li><strong>Verify API:</strong> Check Network tab for failed requests</li>
+                <li><strong>Test Different Browser:</strong> Try Chrome, Firefox, or Edge</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>What the Fixes Address:</h3>
+            <ul>
+                <li>✅ Enhanced page switching in page editor</li>
+                <li>✅ Better content loading with fallbacks</li>
+                <li>✅ Improved cache management</li>
+                <li>✅ Auto-save before page switching</li>
+                <li>✅ Better error handling and logging</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function runFixVerification() {
+            const resultDiv = document.getElementById('verificationResults');
+            resultDiv.innerHTML = '<div class="info">Running fix verification...</div>';
+            
+            const tests = [];
+            
+            // Test 1: Content API
+            try {
+                const response = await fetch('/api/content/about');
+                if (response.ok) {
+                    const data = await response.json();
+                    tests.push({
+                        name: 'Content API',
+                        status: 'success',
+                        message: `✅ About page has ${data.sections?.length || 0} sections`
+                    });
+                } else {
+                    tests.push({
+                        name: 'Content API',
+                        status: 'error',
+                        message: `❌ API returned ${response.status}`
+                    });
+                }
+            } catch (error) {
+                tests.push({
+                    name: 'Content API',
+                    status: 'error',
+                    message: `❌ API error: ${error.message}`
+                });
+            }
+            
+            // Test 2: Page Editor Access
+            try {
+                const editorResponse = await fetch('/admin/page-editor');
+                tests.push({
+                    name: 'Page Editor Access',
+                    status: editorResponse.ok ? 'success' : 'warning',
+                    message: editorResponse.ok ? '✅ Page editor accessible' : '⚠️ Check page editor manually'
+                });
+            } catch (error) {
+                tests.push({
+                    name: 'Page Editor Access',
+                    status: 'warning',
+                    message: '⚠️ Check page editor manually'
+                });
+            }
+            
+            // Test 3: Multiple Pages
+            const pages = ['home', 'programs', 'contact'];
+            let pagesWorking = 0;
+            
+            for (const pageId of pages) {
+                try {
+                    const response = await fetch(`/api/content/${pageId}`);
+                    if (response.ok) {
+                        pagesWorking++;
+                    }
+                } catch (error) {
+                    // Count as failed
+                }
+            }
+            
+            tests.push({
+                name: 'Multiple Pages',
+                status: pagesWorking === pages.length ? 'success' : 'warning',
+                message: `${pagesWorking}/${pages.length} pages accessible`
+            });
+            
+            // Display results
+            const resultsHtml = tests.map(test => `
+                <div class="${test.status}">
+                    <strong>${test.name}:</strong> ${test.message}
+                </div>
+            `).join('');
+            
+            const allPassed = tests.every(t => t.status === 'success');
+            const summaryClass = allPassed ? 'success' : 'warning';
+            
+            resultDiv.innerHTML = `
+                <div class="${summaryClass}">
+                    <h3>Verification Results</h3>
+                    ${resultsHtml}
+                    <div style="margin-top: 15px;">
+                        <strong>Next Step:</strong> ${allPassed ? 
+                            'All tests passed! Try the manual testing steps above.' : 
+                            'Some tests failed. Check the troubleshooting section and try manual testing.'}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Auto-run verification on page load
+        window.addEventListener('load', () => {
+            setTimeout(runFixVerification, 1000);
+        });
+    </script>
+</body>
+</html>

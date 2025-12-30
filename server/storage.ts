@@ -1069,6 +1069,42 @@ export class HybridStorage extends DatabaseStorageWithSeed {
     }
     return fileStorage.deletePageContent(pageId);
   }
+
+  // Media library operations - use file storage when database is not available
+  async getMediaLibrary(): Promise<MediaLibrary[]> {
+    if (this.isDatabaseAvailable()) {
+      return super.getMediaLibrary();
+    }
+    return fileStorage.getMediaLibrary();
+  }
+
+  async getMediaItem(id: string): Promise<MediaLibrary | undefined> {
+    if (this.isDatabaseAvailable()) {
+      return super.getMediaItem(id);
+    }
+    return fileStorage.getMediaItem(id);
+  }
+
+  async uploadMedia(mediaData: InsertMediaLibrary): Promise<MediaLibrary> {
+    if (this.isDatabaseAvailable()) {
+      return super.uploadMedia(mediaData);
+    }
+    return fileStorage.uploadMedia(mediaData);
+  }
+
+  async updateMediaItem(id: string, updates: Partial<InsertMediaLibrary>): Promise<MediaLibrary | undefined> {
+    if (this.isDatabaseAvailable()) {
+      return super.updateMediaItem(id, updates);
+    }
+    return fileStorage.updateMediaItem(id, updates);
+  }
+
+  async deleteMediaItem(id: string): Promise<boolean> {
+    if (this.isDatabaseAvailable()) {
+      return super.deleteMediaItem(id);
+    }
+    return fileStorage.deleteMediaItem(id);
+  }
 }
 
 export const storage = new HybridStorage();
