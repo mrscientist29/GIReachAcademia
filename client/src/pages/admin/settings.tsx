@@ -192,7 +192,7 @@ function SettingsContent() {
             </CardContent>
           </Card>
 
-          {/* Security Settings */}
+          {/* Security Settings
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -253,10 +253,10 @@ function SettingsContent() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Notification Settings */}
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Bell className="h-5 w-5 mr-2" />
@@ -328,9 +328,9 @@ function SettingsContent() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
 
-          {/* Backup Settings */}
+          {/* Backup Settings
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -395,7 +395,7 @@ function SettingsContent() {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>

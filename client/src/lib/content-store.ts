@@ -1,5 +1,7 @@
 // Content Management System for dynamic page editing
 
+import { adminFetch } from './admin-api';
+
 export interface ContentSection {
   id: string;
   type: 'hero' | 'text' | 'stats' | 'services' | 'contact' | 'testimonials';
@@ -635,11 +637,8 @@ class ContentStore {
 
   private async savePageToDatabase(pageId: string, content: PageContent): Promise<void> {
     try {
-      const response = await fetch('/api/admin/content', {
+      const response = await adminFetch('/api/admin/content', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           pageId: pageId,
           pageName: content.name,

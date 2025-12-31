@@ -2,7 +2,7 @@ import type { Express, Request } from "express";
 import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated, type AuthenticatedRequest } from "./auth";
+import { setupAuth, isAuthenticated, isAdminAuthenticated, type AuthenticatedRequest } from "./auth";
 import { upload, processImage, generateThumbnail } from "./middleware/upload";
 import path from "path";
 import { 
@@ -810,7 +810,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Media library routes
-  app.get("/api/admin/media", isAuthenticated, async (req: AuthenticatedRequest, res) => {
+  app.get("/api/admin/media", isAdminAuthenticated, async (req: AuthenticatedRequest, res) => {
     try {
       const media = await storage.getMediaLibrary();
       res.json(media);
@@ -823,7 +823,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
   // Bulk upload endpoint
-  app.post("/api/admin/media/bulk", isAuthenticated, upload.array('files', 10), async (req: AuthenticatedRequest, res) => {
+  app.post("/api/admin/media/bulk", isAdminAuthenticated, upload.array('files', 10), async (req: AuthenticatedRequest, res) => {
     try {
       if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
         return res.status(400).json({ message: "No files uploaded" });
@@ -854,7 +854,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fileUrl: processedImage.url,
             altText: '',
             description: '',
-            uploadedById: req.user?.claims?.sub
+            uploadedById: null // Set to null for admin uploads to avoid foreign key constraint
           };
 
           // Validate and save to database
@@ -885,7 +885,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/admin/media/:id", isAuthenticated, async (req: AuthenticatedRequest, res) => {
+  app.get("/api/admin/media/:id", isAdminAuthenticated, async (req: AuthenticatedRequest, res) => {
     try {
       const media = await storage.getMediaItem(req.params.id);
       if (!media) {
@@ -897,7 +897,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/media", isAuthenticated, upload.single('file'), async (req: AuthenticatedRequest, res) => {
+  app.post("/api/admin/media", isAdminAuthenticated, upload.single('file'), async (req: AuthenticatedRequest, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -924,7 +924,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fileUrl: processedImage.url,
         altText: req.body.altText || '',
         description: req.body.description || '',
-        uploadedById: req.user?.claims?.sub
+        uploadedById: null // Set to null for admin uploads to avoid foreign key constraint
       };
 
       // Validate and save to database
@@ -946,7 +946,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/media/:id", isAuthenticated, async (req: AuthenticatedRequest, res) => {
+  app.put("/api/admin/media/:id", isAdminAuthenticated, async (req: AuthenticatedRequest, res) => {
     try {
       const media = await storage.updateMediaItem(req.params.id, req.body);
       if (!media) {
@@ -958,7 +958,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/media/:id", isAuthenticated, async (req: AuthenticatedRequest, res) => {
+  app.delete("/api/admin/media/:id", isAdminAuthenticated, async (req: AuthenticatedRequest, res) => {
     try {
       const success = await storage.deleteMediaItem(req.params.id);
       if (!success) {

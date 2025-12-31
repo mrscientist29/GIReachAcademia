@@ -126,11 +126,11 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+          {/* <div className="mt-8 p-4 bg-blue-50 rounded-lg">
             <h3 className="text-sm font-semibold text-blue-800 mb-2">Demo Credentials:</h3>
             <p className="text-sm text-blue-700">Email: admin@gireach.pk</p>
             <p className="text-sm text-blue-700">Password: admin123</p>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>

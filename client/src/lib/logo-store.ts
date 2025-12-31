@@ -1,5 +1,7 @@
 // Logo Management System
 
+import { adminFetch } from './admin-api';
+
 export interface LogoSettings {
   type: 'icon' | 'image' | 'text';
   // For icon type
@@ -50,12 +52,8 @@ class LogoStore {
     console.log('LogoStore: Fetching logo settings from database...');
     try {
       // Always try database first for consistency across devices
-      const response = await fetch('/api/admin/settings/logo', {
+      const response = await adminFetch('/api/admin/settings/logo', {
         method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
       });
       
       console.log('LogoStore: API response status:', response.status);
@@ -109,12 +107,8 @@ class LogoStore {
   private async initializeDefaultSettings(): Promise<void> {
     try {
       console.log('LogoStore: Initializing default settings in database...');
-      const response = await fetch('/api/admin/settings', {
+      const response = await adminFetch('/api/admin/settings', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           settingKey: 'logo',
           settingValue: defaultLogoSettings
@@ -153,12 +147,8 @@ class LogoStore {
       console.log('LogoStore: Saving logo settings to database:', settings);
       
       // Save to database (primary storage)
-      const response = await fetch('/api/admin/settings', {
+      const response = await adminFetch('/api/admin/settings', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           settingKey: 'logo',
           settingValue: settings

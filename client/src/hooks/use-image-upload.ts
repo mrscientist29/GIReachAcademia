@@ -58,10 +58,16 @@ export function useImageUpload(): UseImageUploadReturn {
       if (options.altText) formData.append('altText', options.altText);
       if (options.description) formData.append('description', options.description);
 
+      // Get admin token from localStorage
+      const adminToken = localStorage.getItem("adminToken");
+
       const response = await fetch('/api/admin/media', {
         method: 'POST',
         body: formData,
         credentials: 'include',
+        headers: {
+          'X-Admin-Token': adminToken || '',
+        },
       });
 
       if (!response.ok) {
@@ -130,10 +136,16 @@ export function useImageUpload(): UseImageUploadReturn {
         formData.append('files', file);
       });
 
+      // Get admin token from localStorage
+      const adminToken = localStorage.getItem("adminToken");
+
       const response = await fetch('/api/admin/media/bulk', {
         method: 'POST',
         body: formData,
         credentials: 'include',
+        headers: {
+          'X-Admin-Token': adminToken || '',
+        },
       });
 
       if (!response.ok) {

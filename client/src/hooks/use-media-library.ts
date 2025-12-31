@@ -35,8 +35,14 @@ export function useMediaLibrary(): UseMediaLibraryReturn {
       setIsLoading(true);
       setError(null);
 
+      // Get admin token from localStorage
+      const adminToken = localStorage.getItem("adminToken");
+      
       const response = await fetch('/api/admin/media', {
         credentials: 'include',
+        headers: {
+          'X-Admin-Token': adminToken || '',
+        },
       });
 
       if (!response.ok) {
@@ -60,9 +66,15 @@ export function useMediaLibrary(): UseMediaLibraryReturn {
 
   const deleteMedia = async (id: string): Promise<boolean> => {
     try {
+      // Get admin token from localStorage
+      const adminToken = localStorage.getItem("adminToken");
+      
       const response = await fetch(`/api/admin/media/${id}`, {
         method: 'DELETE',
         credentials: 'include',
+        headers: {
+          'X-Admin-Token': adminToken || '',
+        },
       });
 
       if (!response.ok) {
@@ -91,10 +103,14 @@ export function useMediaLibrary(): UseMediaLibraryReturn {
 
   const updateMedia = async (id: string, updates: Partial<MediaItem>): Promise<MediaItem | null> => {
     try {
+      // Get admin token from localStorage
+      const adminToken = localStorage.getItem("adminToken");
+      
       const response = await fetch(`/api/admin/media/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'X-Admin-Token': adminToken || '',
         },
         body: JSON.stringify(updates),
         credentials: 'include',

@@ -21,6 +21,46 @@ export interface AuthenticatedRequest extends Express.Request {
   };
 }
 
+// Admin authentication middleware for simple admin access
+export const isAdminAuthenticated: RequestHandler = (req: any, res, next) => {
+  try {
+    // Check for admin token in headers (sent by frontend)
+    const adminToken = req.headers['x-admin-token'];
+    
+    if (adminToken === 'authenticated') {
+      req.user = {
+        claims: {
+          sub: 'admin-user',
+          email: 'admin@gireach.pk',
+          role: 'admin',
+          firstName: 'Admin',
+          lastName: 'User'
+        }
+      };
+      return next();
+    }
+
+    // Fallback: In development mode, bypass authentication for admin endpoints
+    if (process.env.NODE_ENV?.trim() === 'development') {
+      req.user = {
+        claims: {
+          sub: 'dev-user-123',
+          email: 'dev@example.com',
+          role: 'admin',
+          firstName: 'Dev',
+          lastName: 'User'
+        }
+      };
+      return next();
+    }
+
+    return res.status(401).json({ message: "Admin authentication required" });
+  } catch (error) {
+    console.error('Admin authentication error:', error);
+    return res.status(401).json({ message: "Admin authentication failed" });
+  }
+};
+
 // JWT authentication middleware
 export const isAuthenticated: RequestHandler = (req: any, res, next) => {
   try {

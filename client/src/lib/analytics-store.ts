@@ -1,5 +1,7 @@
 // Analytics and Dashboard Data Management
 
+import { adminFetch } from './admin-api';
+
 export interface DashboardStats {
   totalUsers: number;
   totalPublications: number;
@@ -93,10 +95,10 @@ class AnalyticsStore {
         mediaResponse,
         feedbackResponse
       ] = await Promise.all([
-        fetch('/api/admin/users').catch(() => ({ ok: false })),
+        adminFetch('/api/admin/users').catch(() => ({ ok: false })),
         fetch('/api/content').catch(() => ({ ok: false })),
-        fetch('/api/admin/media').catch(() => ({ ok: false })),
-        fetch('/api/admin/feedback').catch(() => ({ ok: false }))
+        adminFetch('/api/admin/media').catch(() => ({ ok: false })),
+        adminFetch('/api/admin/feedback').catch(() => ({ ok: false }))
       ]);
 
       let totalUsers = 0;

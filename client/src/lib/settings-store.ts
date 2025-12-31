@@ -1,6 +1,8 @@
 // Global Website Settings Management System
 // This ensures all settings are loaded from database and consistent across devices
 
+import { adminFetch } from './admin-api';
+
 export interface WebsiteSettings {
   logo?: any;
   theme?: any;
@@ -32,12 +34,8 @@ class GlobalSettingsStore {
     try {
       console.log('GlobalSettingsStore: Initializing settings from database...');
       
-      const response = await fetch('/api/admin/settings', {
+      const response = await adminFetch('/api/admin/settings', {
         method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
       });
 
       if (response.ok) {
@@ -76,12 +74,8 @@ class GlobalSettingsStore {
 
     // If not in cache, try to fetch from database
     try {
-      const response = await fetch(`/api/admin/settings/${key}`, {
+      const response = await adminFetch(`/api/admin/settings/${key}`, {
         method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
       });
 
       if (response.ok) {
@@ -101,12 +95,8 @@ class GlobalSettingsStore {
     try {
       console.log(`GlobalSettingsStore: Saving setting ${key}:`, value);
       
-      const response = await fetch('/api/admin/settings', {
+      const response = await adminFetch('/api/admin/settings', {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           settingKey: key,
           settingValue: value
